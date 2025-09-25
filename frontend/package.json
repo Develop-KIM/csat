@@ -17,11 +17,11 @@
   },
   "lint-staged": {
     "*.{js,vue}": [
-      "eslint --cache .",
-      "prettier --write --cache"
+      "eslint --fix",
+      "prettier --write"
     ],
     "*.{css,html,json}": [
-      "prettier --write --cache"
+      "prettier --write"
     ]
   },
   "dependencies": {
