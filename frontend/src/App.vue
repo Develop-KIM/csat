@@ -9,4 +9,5 @@
 </template>
 
 <style scoped></style>
-sadasdas
+sadasdasasdsadasdsadasd
+/* husky 재설치 테스트 */
