@@ -9,5 +9,4 @@
 </template>
 
 <style scoped>
-</style>/* test comment */
-/* another test */
+</style>
