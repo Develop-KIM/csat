@@ -9,5 +9,3 @@
 </template>
 
 <style scoped></style>
-/* husky 최종 테스트 */
-test
