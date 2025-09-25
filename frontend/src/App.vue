@@ -10,4 +10,3 @@
 
 <style scoped></style>
 sadasdasasdsadasdsadasd
-/* husky 재설치 테스트 */
