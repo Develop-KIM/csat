@@ -6,5 +6,5 @@ if git diff --name-only @{upstream}..HEAD | grep -q "^backend/"; then
     npm test || { echo "백엔드 테스트 실패"; cd ..; exit 1; }
   echo "백엔드 테스트 통과"
 else
-  echo "백엔드 변경사항 없음(테스트 건너뛰기)"
+  echo "백엔드 변경사항 없음"
 fi
