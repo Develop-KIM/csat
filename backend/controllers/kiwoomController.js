@@ -16,10 +16,7 @@ const getToken = asyncHandling(async (req, res) => {
 
     res.json(successResponse(formattedData, '토큰 발급 성공'));
   } catch (error) {
-    console.error(
-      '키움 토큰 발급 에러:',
-      error.response?.data || error.message,
-    );
+    console.error('토큰 발급 에러:', error.response?.data || error.message);
 
     res
       .status(error.response?.status || 500)
