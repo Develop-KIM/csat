@@ -15,7 +15,6 @@ const errorResponse = (message, error = null) => {
 };
 
 module.exports = {
-  createResponse,
   successResponse,
   errorResponse,
 };

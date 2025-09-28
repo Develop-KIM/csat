@@ -28,3 +28,7 @@ const getToken = asyncHandling(async (req, res) => {
       );
   }
 });
+
+module.exports = {
+  getToken,
+};

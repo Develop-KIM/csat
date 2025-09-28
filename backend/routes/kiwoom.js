@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const kiwoomController = require('../controllers/KiwoomController');
+const kiwoomController = require('../controllers/kiwoomController');
 
 router.post('/token', kiwoomController.getToken);
 
