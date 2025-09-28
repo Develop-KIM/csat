@@ -1,12 +1,12 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-echo "프론트엔드 린트 실행 중"
-
+echo "프론트엔드 린트 실행"
 if git diff --cached --name-only | grep -q "^frontend/"; then
   cd frontend
   npx lint-staged
   cd ..
+  echo "프론트엔드 린트 완료"
 else
   echo "프론트엔드 변경사항 없음 - 린트 건너뛰기"
 fi
