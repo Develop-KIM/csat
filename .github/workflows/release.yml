@@ -28,7 +28,7 @@ jobs:
 
       # 테스트 추 후 추가
       # - name: Run backend tests
-      #   run: cd backend && npm test
+      #   run: npm test
 
       - name: Semantic Release
         env:
