@@ -3,7 +3,7 @@ const kiwoomConfig = require('../config/kiwoom');
 
 const getToken = async () => {
   const response = await axios.post(
-    'https://api.kiwoom.com/oauth2/token',
+    `${kiwoomConfig.baseUrl}/oauth2/token`,
     {
       grant_type: 'client_credentials',
       appkey: kiwoomConfig.apiKey,
