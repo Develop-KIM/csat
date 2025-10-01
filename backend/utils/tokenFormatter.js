@@ -6,4 +6,12 @@ const toTokenResponse = (tokenRecord) => ({
   returnMsg: tokenRecord.return_msg,
 });
 
-module.exports = { toTokenResponse };
+const toTokenStatusResponse = (token) => ({
+  id: token.id,
+  isActive: token.is_active,
+  expiresAt: token.expires_dt,
+  createdAt: token.created_at,
+  revokedAt: token.revoked_at,
+});
+
+module.exports = { toTokenResponse, toTokenStatusResponse };
