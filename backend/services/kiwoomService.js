@@ -25,16 +25,12 @@ const getToken = async () => {
   const validToken = await kiwoomTokenRepository.findValidToken(10);
   
   if (validToken) {
-    console.log('기존 토큰 사용');
     return toTokenResponse(validToken);
   }
-
-  console.log('새 토큰 발급');
 
   await kiwoomTokenRepository.deactivateAll();
 
   const newCreateToken = await createToken();
-
   const savedToken = await kiwoomTokenRepository.create(newCreateToken);
   
   return toTokenResponse(savedToken);
