@@ -36,7 +36,6 @@ describe('키움 토큰 발급 테스트', () => {
     const isFailure = response.body.success === false;
 
     isSuccess && validateSuccessResponse(response);
-
     isFailure && validateErrorResponse(response);
   }, 10000);
 });
