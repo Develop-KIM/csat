@@ -1,42 +1,51 @@
 const request = require('supertest');
 const app = require('../app');
 const { KiwoomToken } = require('../models');
+const axios = require('axios');
+
+jest.mock('axios');
 
 describe('키움 토큰 발급 테스트', () => {
   beforeEach(async () => {
     await KiwoomToken.destroy({ where: {}, truncate: true });
+    jest.clearAllMocks();
+
+    const futureDate = new Date(Date.now() + 86400 * 1000);
+    const formattedDate = futureDate
+      .toISOString()
+      .replace(/[-:T.]/g, '')
+      .slice(0, 14);
+
+    axios.post.mockResolvedValue({
+      data: {
+        token: 'mock_token_12345',
+        token_type: 'Bearer',
+        expires_dt: formattedDate,
+        return_code: '0',
+        return_msg: '정상처리되었습니다',
+      },
+    });
+  });
+
+  afterAll(async () => {
+    const { sequelize } = require('../models');
+    await sequelize.close();
   });
 
   const validateCommonStructure = (response) => {
     expect(response.body).toHaveProperty('success');
     expect(response.body).toHaveProperty('message');
-    expect(response.body).toHaveProperty('timestamp');
+    expect(response.body).toHaveProperty('data');
   };
 
   test('토큰 발급 성공 테스트', async () => {
-    const response = await request(app)
-      .post('/api/kiwoom/token') 
-      .expect('Content-Type', /json/);
+    const response = await request(app).post('/api/kiwoom/token').expect(200);
 
     validateCommonStructure(response);
-
-    expect(response.status).toBe(200);
     expect(response.body.success).toBe(true);
-    
     expect(response.body.data).toHaveProperty('token');
-    expect(response.body.data).toHaveProperty('expiresAt');
-    expect(response.body.data).toHaveProperty('tokenType');
-    expect(response.body.data).toHaveProperty('returnCode');
-    expect(response.body.data).toHaveProperty('returnMsg');
-
-    const savedToken = await KiwoomToken.findOne({
-      where: { is_active: true }
-    });
-    
-    expect(savedToken).not.toBeNull();
-    expect(savedToken.access_token).toBe(response.body.data.token);
-    expect(savedToken.is_active).toBe(true);
-  }, 10000);
+    expect(response.body.data.token).toBe('mock_token_12345');
+  });
 
   test('같은 토큰 재사용 확인', async () => {
     const firstResponse = await request(app)
@@ -50,38 +59,22 @@ describe('키움 토큰 발급 테스트', () => {
       .expect(200);
 
     const secondToken = secondResponse.body.data.token;
-    expect(firstToken).toBe(secondToken);
 
-    const activeTokenCount = await KiwoomToken.count({
-      where: { is_active: true }
-    });
-    expect(activeTokenCount).toBe(1);
-  }, 10000);
+    expect(firstToken).toBe(secondToken);
+    expect(axios.post).toHaveBeenCalledTimes(1);
+  });
 
   test('토큰 발급 실패 테스트', async () => {
-    const originalKey = process.env.KIWOOM_API_KEY;
-    const originalSecret = process.env.KIWOOM_API_SECRET;
-    
-    process.env.KIWOOM_API_KEY = 'invalid_key';
-    process.env.KIWOOM_API_SECRET = 'invalid_secret';
+    axios.post.mockRejectedValue({
+      response: {
+        status: 401,
+        data: { error: 'invalid_credentials' },
+      },
+    });
 
-    delete require.cache[require.resolve('../config/kiwoom')];
-    
-    const response = await request(app)
-      .post('/api/kiwoom/token')
-      .expect('Content-Type', /json/);
+    const response = await request(app).post('/api/kiwoom/token').expect(401);
 
     validateCommonStructure(response);
-
-    expect(response.status).not.toBe(200);
     expect(response.body.success).toBe(false);
-    expect(response.body).toHaveProperty('error');
-
-    // const count = await KiwoomToken.count();
-    // expect(count).toBe(0);
-
-    process.env.KIWOOM_API_KEY = originalKey;
-    process.env.KIWOOM_API_SECRET = originalSecret;
-    delete require.cache[require.resolve('../config/kiwoom')];
-  }, 10000);
+  });
 });

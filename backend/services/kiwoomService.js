@@ -1,7 +1,10 @@
 const axios = require('axios');
 const kiwoomConfig = require('../config/kiwoom');
 const kiwoomTokenRepository = require('../repositories/kiwoomTokenRepository');
-const { toTokenResponse, toTokenStatusResponse } = require('../utils/tokenFormatter');
+const {
+  toTokenResponse,
+  toTokenStatusResponse,
+} = require('../utils/tokenFormatter');
 
 const createToken = async () => {
   const response = await axios.post(
@@ -17,13 +20,12 @@ const createToken = async () => {
       },
     },
   );
-
   return response.data;
 };
 
 const getToken = async () => {
   const validToken = await kiwoomTokenRepository.findValidToken(10);
-  
+
   if (validToken) {
     return toTokenResponse(validToken);
   }
@@ -31,18 +33,21 @@ const getToken = async () => {
   await kiwoomTokenRepository.deactivateAll();
 
   const newCreateToken = await createToken();
+
   const savedToken = await kiwoomTokenRepository.create(newCreateToken);
-  
-  return toTokenResponse(savedToken);
+
+  const result = toTokenResponse(savedToken);
+
+  return result;
 };
 
 const getTokenStatus = async () => {
   const activeCount = await kiwoomTokenRepository.countActive();
   const allTokens = await kiwoomTokenRepository.findAll({ limit: 10 });
-  
+
   return {
     active_count: activeCount,
-    recentTokens: allTokens.map(toTokenStatusResponse)
+    recentTokens: allTokens.map(toTokenStatusResponse),
   };
 };
 
