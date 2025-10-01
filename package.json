@@ -1,12 +1,16 @@
 {
   "name": "csat",
   "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
   "description": "",
   "scripts": {
     "dev:frontend": "cd frontend && npm run serve",
     "dev:backend": "cd backend && npm run dev",
     "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
-    "install": "cd frontend && npm install && cd ../backend && npm install",
     "prepare": "husky",
     "test": "cd backend && npm test"
   },

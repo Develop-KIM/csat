@@ -18,6 +18,8 @@ const sequelize = new Sequelize(
 // 추후 시계열 연결이 필요할 경우를 대비해 pg Pool도 설정
 const pool = new Pool(dbConfig)
 
+const KiwoomToken = require('./KiwoomToken')(sequelize);
+
 async function initDB() {
   try {
     await sequelize.authenticate()
@@ -34,5 +36,6 @@ async function initDB() {
 module.exports = {
   sequelize,
   pool,
-  initDB
+  initDB,
+  KiwoomToken,
 }

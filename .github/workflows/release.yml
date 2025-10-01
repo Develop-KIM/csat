@@ -26,10 +26,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # 테스트 추 후 추가
-      # - name: Run backend tests
-      #   run: cd backend && npm test
-
       - name: Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
