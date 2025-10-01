@@ -30,7 +30,7 @@ class KiwoomTokenRepository {
 
   async create(tokenData) {
     return await KiwoomToken.create({
-      access_token: tokenData.access_token,
+      access_token: tokenData.token,
       token_type: tokenData.token_type,
       expires_dt: new Date(tokenData.expires_dt),
       return_code: tokenData.return_code,
