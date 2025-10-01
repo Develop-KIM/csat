@@ -10,7 +10,7 @@ const parseExpiresDate = (dateStr) => {
   const minute = dateStr.substring(10, 12);
   const second = dateStr.substring(12, 14);
 
-  return new Date(`${year}-${month}-${day} ${hour}:${minute}:${second}`);
+  return new Date(`${year}-${month}-${day}T${hour}:${minute}:${second}`);
 };
 
 module.exports = { parseExpiresDate };
