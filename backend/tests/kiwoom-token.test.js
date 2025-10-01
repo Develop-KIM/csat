@@ -28,7 +28,7 @@ describe('키움 토큰 발급 테스트', () => {
     expect(response.body.data).toHaveProperty('return_msg');
   }, 10000);
 
-  test('잘못된 API 키로 토큰 발급 실패 테스트', async () => {
+  test('토큰 발급 실패 테스트', async () => {
     const originalKey = process.env.KIWOOM_API_KEY;
     const originalSecret = process.env.KIWOOM_API_SECRET;
     
@@ -51,7 +51,6 @@ describe('키움 토큰 발급 테스트', () => {
   }, 10000);
 
   test('네트워크 에러 처리 테스트', async () => {
-    // baseUrl을 잘못된 URL로 변경
     const originalEnv = process.env.NODE_ENV;
     process.env.NODE_ENV = 'invalid';
 
