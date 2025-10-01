@@ -1,26 +1,21 @@
 const { Sequelize } = require('sequelize')
 const { Pool } = require('pg')
+const dbConfig = require('../config/database')
 require('dotenv').config()
 
 const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
+  dbConfig.database,
+  dbConfig.user,
+  dbConfig.password,
   {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    host: dbConfig.host,
+    port: dbConfig.port,
     dialect: 'postgres',
     logging: false
   }
 )
 
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
-})
+const pool = new Pool(dbConfig)
 
 async function initDB() {
   try {
@@ -31,6 +26,7 @@ async function initDB() {
     console.log('테이블 동기화')
   } catch (error) {
     console.error('DB 연결 실패:', error)
+    throw error
   }
 }
 

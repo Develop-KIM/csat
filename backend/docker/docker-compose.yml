@@ -3,11 +3,11 @@ services:
     image: timescale/timescaledb:latest-pg15
     container_name: csat-timescaledb
     ports:
-      - "5654:5432"
+      - "${DB_PORT}:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: cast2025!@
-      POSTGRES_DB: cast_development
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     volumes:
       - timescaledb_data:/var/lib/postgresql/data
     restart: always
