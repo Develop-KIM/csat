@@ -4,16 +4,17 @@ const { toTokenResponse } = require('../utils/tokenFormatter');
 
 const getToken = async (req, res) => {
   try {
-    const tokenData = await kiwoomService.getToken();
-    const formattedData = toTokenResponse(tokenData);
+    const token = await kiwoomService.getToken();
 
-    res.json(successResponse(formattedData, '토큰 조회 성공'));
+    res.json(successResponse(token, '토큰 조회 성공'));
   } catch (error) {
     console.error('토큰 조회 에러:', error.response?.data || error.message);
 
     res
       .status(error.response?.status || 500)
-      .json(errorResponse('토큰 조회 실패', error.response?.data || error.message));
+      .json(
+        errorResponse('토큰 조회 실패', error.response?.data || error.message),
+      );
   }
 };
 
