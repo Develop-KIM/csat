@@ -68,7 +68,7 @@ describe('키움 토큰 발급 테스트', () => {
     axios.post.mockRejectedValue({
       response: {
         status: 401,
-        data: { error: 'invalid_credentials' },
+        data: { error: '인증 실패' },
       },
     });
 
