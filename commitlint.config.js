@@ -18,4 +18,7 @@ module.exports = {
       ],
     ],
   },
+  ignores: [
+    (message) => message.includes('[skip ci]'),
+  ],
 };
