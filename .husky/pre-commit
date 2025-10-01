@@ -1,6 +1,5 @@
 if git diff --cached --name-only | grep -q "^frontend/"; then
-  cd frontend
-  npx lint-staged
+  (cd frontend && npx lint-staged) || exit 1
   echo "프론트엔드 린트 완료"
 else
   echo "프론트엔드 변경사항 없음"
