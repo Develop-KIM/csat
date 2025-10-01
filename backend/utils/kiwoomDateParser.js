@@ -1,5 +1,9 @@
-const parseExpiresDate = (expiresAt) => {
-  if (!expiresAt || typeof expiresAt !== 'string' || expiresAt.length !== 14) {
+const isValidExpires = (expiresAt) => {
+  return expiresAt && typeof expiresAt === 'string' && expiresAt.length === 14;
+};
+
+const parseExpires = (expiresAt) => {
+  if (!isValidExpires(expiresAt)) {
     throw new Error(`키움 API 날짜 형식 오류: ${expiresAt}`);
   }
 
@@ -13,4 +17,4 @@ const parseExpiresDate = (expiresAt) => {
   return new Date(year, month, day, hour, minute, second);
 };
 
-module.exports = { parseExpiresDate };
+module.exports = { parseExpires };

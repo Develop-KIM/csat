@@ -1,7 +1,7 @@
 const request = require('supertest');
 const app = require('../app');
-const { KiwoomToken } = require('../models');
 const axios = require('axios');
+const { KiwoomToken } = require('../models');
 
 jest.mock('axios');
 
