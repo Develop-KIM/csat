@@ -36,7 +36,6 @@ class KiwoomTokenRepository {
       expires_dt: parseExpires(tokenData.expires_dt),
       return_code: tokenData.return_code,
       return_msg: tokenData.return_msg,
-      created_at: new Date(),
       is_active: true,
     });
   }
