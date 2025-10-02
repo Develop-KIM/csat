@@ -1,9 +1,9 @@
 const axios = require('axios');
-const kiwoomService = require('../../services/kiwoomService');
-const kiwoomTokenRepository = require('../../repositories/kiwoomTokenRepository');
+const kiwoomService = require('../services/kiwoomService');
+const kiwoomTokenRepository = require('../repositories/kiwoomTokenRepository');
 
 jest.mock('axios');
-jest.mock('../../repositories/kiwoomTokenRepository');
+jest.mock('../repositories/kiwoomTokenRepository');
 
 describe('토큰 폐기 테스트', () => {
   beforeEach(() => {
