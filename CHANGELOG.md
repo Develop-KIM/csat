@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/Develop-KIM/csat/compare/v1.1.1...v1.2.0) (2025-10-02)
+
+
+### Features
+
+* api 프록시 설정 ([161b30a](https://github.com/Develop-KIM/csat/commit/161b30ae3fe245f5cf15b4a43ef6d4aa5d8bb113))
+
 ## [1.1.1](https://github.com/Develop-KIM/csat/compare/v1.1.0...v1.1.1) (2025-10-01)
 
 
