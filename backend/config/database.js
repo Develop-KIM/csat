@@ -1,7 +1,7 @@
 const path = require('path');
 
 function getEnvFilePath() {
-  if (process.env.NODE_ENV == 'test') {
+  if (process.env.NODE_ENV === 'test') {
     return path.join(__dirname, '..', '.env.test');
   }
   return '.env';
