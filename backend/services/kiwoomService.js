@@ -7,6 +7,17 @@ const {
 } = require('../utils/tokenFormatter');
 
 const createToken = async () => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+    },
+  };
+
+  if (kiwoomConfig.proxyAgent) {
+    config.httpAgent = kiwoomConfig.proxyAgent;
+    config.httpsAgent = kiwoomConfig.proxyAgent;
+  }
+
   const response = await axios.post(
     `${kiwoomConfig.baseUrl}/oauth2/token`,
     {
@@ -14,12 +25,9 @@ const createToken = async () => {
       appkey: kiwoomConfig.apiKey,
       secretkey: kiwoomConfig.apiSecret,
     },
-    {
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    },
+    config
   );
+  console.log('키움 API 응답:', response.data);
   return response.data;
 };
 

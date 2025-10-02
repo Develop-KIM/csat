@@ -1,7 +1,7 @@
 const request = require('supertest');
-const app = require('../app');
+const app = require('../../app');
 const axios = require('axios');
-const { KiwoomToken } = require('../models');
+const { KiwoomToken } = require('../../models');
 
 jest.mock('axios');
 
@@ -28,7 +28,7 @@ describe('키움 토큰 발급 테스트', () => {
   });
 
   afterAll(async () => {
-    const { sequelize } = require('../models');
+    const { sequelize } = require('../../models');
     await sequelize.close();
   });
 
