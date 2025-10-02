@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/Develop-KIM/csat/compare/v1.2.0...v1.3.0) (2025-10-02)
+
+
+### Features
+
+* 토큰 폐기 로직 추가 ([bfa1199](https://github.com/Develop-KIM/csat/commit/bfa11996c31adf22c0485943ec21b459626d30da))
+
 # [1.2.0](https://github.com/Develop-KIM/csat/compare/v1.1.1...v1.2.0) (2025-10-02)
 
 
