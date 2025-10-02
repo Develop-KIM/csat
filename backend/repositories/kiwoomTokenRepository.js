@@ -30,12 +30,14 @@ class KiwoomTokenRepository {
   }
 
   async create(tokenData) {
+    console.log('Creating KiwoomToken with data:', tokenData);
     return await KiwoomToken.create({
       access_token: tokenData.token,
       token_type: tokenData.token_type,
       expires_dt: parseExpires(tokenData.expires_dt),
       return_code: tokenData.return_code,
       return_msg: tokenData.return_msg,
+      created_at: new Date(),
       is_active: true,
     });
   }

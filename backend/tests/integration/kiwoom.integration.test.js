@@ -24,11 +24,11 @@ describe('키움 API 통합 테스트', () => {
 
     test('발급된 토큰이 DB에 저장되었는지 확인', async () => {
       const tokens = await KiwoomToken.findAll({
-        where: { isActive: true },
+        where: { is_active: true },
       });
 
       expect(tokens.length).toBeGreaterThan(0);
-      expect(tokens[0].token).toBeDefined();
+      expect(tokens[0].access_token).toBeDefined();
     });
 
     test('유효한 토큰 재사용 확인 (실제 API 호출 없이)', async () => {

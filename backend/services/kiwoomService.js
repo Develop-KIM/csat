@@ -27,6 +27,7 @@ const createToken = async () => {
     },
     config
   );
+  console.log('키움 API 응답:', response.data);
   return response.data;
 };
 
