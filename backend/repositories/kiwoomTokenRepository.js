@@ -15,18 +15,16 @@ class KiwoomTokenRepository {
     });
   }
 
-  async deactivateAll() {
-    const [affectedCount] = await KiwoomToken.update(
+  async deactivateToken(tokenId) {
+    await KiwoomToken.update(
       {
         is_active: false,
         revoked_at: new Date(),
       },
       {
-        where: { is_active: true },
-      },
+        where: { id: tokenId, is_active: true },
+      }
     );
-
-    return affectedCount;
   }
 
   async create(tokenData) {

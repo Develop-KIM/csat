@@ -6,7 +6,7 @@ const {
   toTokenStatusResponse,
 } = require('../utils/tokenFormatter');
 
-const createToken = async () => {
+const getRequestConfig = () => {
   const config = {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
@@ -18,6 +18,10 @@ const createToken = async () => {
     config.httpsAgent = kiwoomConfig.proxyAgent;
   }
 
+  return config;
+};
+
+const createToken = async () => {
   const response = await axios.post(
     `${kiwoomConfig.baseUrl}/oauth2/token`,
     {
@@ -25,7 +29,7 @@ const createToken = async () => {
       appkey: kiwoomConfig.apiKey,
       secretkey: kiwoomConfig.apiSecret,
     },
-    config
+    getRequestConfig()
   );
   return response.data;
 };
@@ -37,15 +41,29 @@ const getToken = async () => {
     return toTokenResponse(validToken);
   }
 
-  await kiwoomTokenRepository.deactivateAll();
-
   const newCreateToken = await createToken();
-
   const savedToken = await kiwoomTokenRepository.create(newCreateToken);
 
-  const result = toTokenResponse(savedToken);
+  return toTokenResponse(savedToken);
+};
 
-  return result;
+const revokeToken = async (token) => {
+  const response = await axios.post(
+    `${kiwoomConfig.baseUrl}/oauth2/revoke`,
+    {
+      appkey: kiwoomConfig.apiKey,
+      secretkey: kiwoomConfig.apiSecret,
+      token: token,
+    },
+    getRequestConfig()
+  );
+
+  const dbToken = await kiwoomTokenRepository.findByAccessToken(token);
+  if (dbToken) {
+    await kiwoomTokenRepository.deactivateToken(dbToken.id);
+  }
+
+  return response.data;
 };
 
 const getTokenStatus = async () => {
@@ -60,5 +78,6 @@ const getTokenStatus = async () => {
 
 module.exports = {
   getToken,
+  revokeToken,
   getTokenStatus,
 };
