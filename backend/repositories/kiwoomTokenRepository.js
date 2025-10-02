@@ -1,6 +1,6 @@
 const { KiwoomToken } = require('../models');
 const { Op } = require('sequelize');
-const { parseExpiresDate } = require('../utils/kiwoomDateParser');
+const { parseExpires } = require('../utils/kiwoomDateParser');
 
 class KiwoomTokenRepository {
   async findValidToken(bufferMinutes) {
@@ -33,7 +33,7 @@ class KiwoomTokenRepository {
     return await KiwoomToken.create({
       access_token: tokenData.token,
       token_type: tokenData.token_type,
-      expires_dt: parseExpiresDate(tokenData.expires_dt),
+      expires_dt: parseExpires(tokenData.expires_dt),
       return_code: tokenData.return_code,
       return_msg: tokenData.return_msg,
       is_active: true,
