@@ -30,7 +30,6 @@ class KiwoomTokenRepository {
   }
 
   async create(tokenData) {
-    console.log('Creating KiwoomToken with data:', tokenData);
     return await KiwoomToken.create({
       access_token: tokenData.token,
       token_type: tokenData.token_type,

@@ -4,9 +4,12 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "jest",
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:migrate:test": "NODE_ENV=test npx sequelize-cli db:migrate",
+    "test": "npm run db:migrate:test && jest",
+    "db:setup": "npm run db:migrate && npm run db:migrate:test"
   },
   "keywords": [],
   "author": "",

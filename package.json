@@ -12,7 +12,11 @@
     "dev:backend": "cd backend && npm run dev",
     "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
     "prepare": "husky",
-    "test": "cd backend && npm test"
+    "test": "cd backend && npm test",
+    "docker:up": "cd backend && make docker-up",
+    "docker:down": "cd backend && make docker-down",
+    "db:setup": "cd backend && npm run db:setup",
+    "setup": "npm install && npm run docker:up && npm run db:setup"
   },
   "keywords": [],
   "author": "",

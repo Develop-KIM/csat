@@ -1,11 +1,12 @@
 const { Sequelize } = require('sequelize')
 const { Pool } = require('pg')
-const dbConfig = require('../config/database')
-require('dotenv').config()
+
+const env = process.env.NODE_ENV || 'development';
+const dbConfig = require('../config/database')[env];
 
 const sequelize = new Sequelize(
   dbConfig.database,
-  dbConfig.user,
+  dbConfig.username,
   dbConfig.password,
   {
     host: dbConfig.host,
@@ -15,7 +16,6 @@ const sequelize = new Sequelize(
   }
 )
 
-// 추후 시계열 연결이 필요할 경우를 대비해 pg Pool도 설정
 const pool = new Pool(dbConfig)
 
 const KiwoomToken = require('./KiwoomToken')(sequelize);
