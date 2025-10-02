@@ -8,7 +8,7 @@
     "dev": "nodemon server.js",
     "db:migrate": "npx sequelize-cli db:migrate",
     "db:migrate:test": "NODE_ENV=test npx sequelize-cli db:migrate",
-    "test": "npm run db:migrate:test && jest",
+    "test": "jest",
     "db:setup": "npm run db:migrate && npm run db:migrate:test"
   },
   "keywords": [],
