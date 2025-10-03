@@ -57,7 +57,7 @@ describe('토큰 생성 테스트', () => {
 
       kiwoomTokenRepository.create.mockResolvedValue(mockCreatedToken);
 
-      const result = await kiwoomService.getOrCreateToken();
+      const result = await kiwoomService.ensureValidToken();
 
       expect(axios.post).toHaveBeenCalledTimes(1);
       expect(kiwoomTokenRepository.create).toHaveBeenCalled();
@@ -69,7 +69,7 @@ describe('토큰 생성 테스트', () => {
 
       axios.post.mockRejectedValue(new Error('키움 API 오류'));
 
-      await expect(kiwoomService.getOrCreateToken()).rejects.toThrow(
+      await expect(kiwoomService.ensureValidToken()).rejects.toThrow(
         '키움 API 오류',
       );
     });
