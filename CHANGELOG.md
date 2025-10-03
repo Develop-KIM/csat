@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/Develop-KIM/csat/compare/v1.3.0...v1.4.0) (2025-10-03)
+
+
+### Features
+
+* add Swagger documentation for CSAT API ([389d132](https://github.com/Develop-KIM/csat/commit/389d132d5971428ba40740dcb8923dac054c8c1c))
+
 # [1.3.0](https://github.com/Develop-KIM/csat/compare/v1.2.0...v1.3.0) (2025-10-02)
 
 
