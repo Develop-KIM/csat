@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const { swaggerUi, swaggerDocument } = require('./swagger');
 require('dotenv').config();
 
 global.asyncHandling = require('express-async-handler');
@@ -13,6 +14,8 @@ app.use(helmet());
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
+
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get('/api/health', (req, res) => {
   res.json({
