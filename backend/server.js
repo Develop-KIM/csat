@@ -1,6 +1,7 @@
 const app = require('./app');
 const { initDB } = require('./models');
-const tokenRefreshScheduler = require('./services/tokenRefreshScheduler');
+const tokenRefreshScheduler = require('./scheduler/tokenRefreshScheduler');
+const tokenCleanupScheduler = require('./scheduler/tokenCleanupScheduler');
 require('dotenv/config');
 const PORT = process.env.PORT;
 
@@ -9,6 +10,7 @@ async function startServer() {
     await initDB();
 
     tokenRefreshScheduler.start();
+    tokenCleanupScheduler.start();
 
     const server = app.listen(PORT, () => {
       console.log(`백엔드 실행 포트 ${PORT}`);
@@ -20,6 +22,7 @@ async function startServer() {
     const shutdown = (signal) => {
       console.log(`\n ${signal} 수신, 서버 종료 중`);
       tokenRefreshScheduler.stop();
+      tokenCleanupScheduler.stop();
       server.close(() => {
         console.log('서버 종료 완료');
         process.exit(0);

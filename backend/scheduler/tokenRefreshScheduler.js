@@ -1,6 +1,6 @@
 const cron = require('node-cron');
 const kiwoomTokenRepository = require('../repositories/kiwoomTokenRepository');
-const kiwoomService = require('./kiwoomService');
+const kiwoomService = require('../services/kiwoomService');
 
 class TokenRefreshScheduler {
   constructor() {
@@ -81,10 +81,6 @@ class TokenRefreshScheduler {
       this.scheduler = null;
       console.log('[TokenRefresh] 스케줄러 중지');
     }
-  }
-
-  async triggerManualRefresh() {
-    await this.refreshToken();
   }
 
   getStatus() {
