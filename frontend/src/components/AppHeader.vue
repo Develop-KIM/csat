@@ -4,7 +4,6 @@
     color="primary"
     dark
     flat
-    style="min-width: 310px"
     :height="$vuetify.breakpoint.smAndDown ? 60 : 100"
   >
     <v-container fluid :class="$vuetify.breakpoint.smAndDown ? 'px-4' : 'px-8'">

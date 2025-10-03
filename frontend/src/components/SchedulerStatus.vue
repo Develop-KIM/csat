@@ -1,7 +1,10 @@
 <template>
   <v-card class="scheduler-status">
     <v-card-title class="d-flex justify-space-between align-center">
-      <span class="text-h6">스케줄러 상태</span>
+      <span
+        :class="$vuetify.breakpoint.smAndDown ? 'text-subtitle-1' : 'text-h6'"
+        >스케줄러 상태</span
+      >
       <span class="text-caption grey--text">
         마지막 업데이트: {{ lastUpdated }}
       </span>
@@ -11,13 +14,11 @@
         <v-col cols="12" md="6">
           <div class="scheduler-card">
             <div class="d-flex align-center justify-space-between mb-3">
-              <h3 class="text-subtitle-1 font-weight-bold">
-                <v-icon left color="primary">mdi-refresh</v-icon>
-                토큰 재발급 스케줄러
-              </h3>
+              <h3 class="scheduler-title">토큰 재발급 스케줄러</h3>
               <v-chip
                 :color="refreshStatus.isRunning ? 'success' : 'error'"
                 label
+                :small="$vuetify.breakpoint.smAndDown"
               >
                 {{ refreshStatus.isRunning ? "실행 중" : "중지됨" }}
               </v-chip>
@@ -78,13 +79,11 @@
         <v-col cols="12" md="6">
           <div class="scheduler-card">
             <div class="d-flex align-center justify-space-between mb-3">
-              <h3 class="text-subtitle-1 font-weight-bold">
-                <v-icon left color="error">mdi-delete-sweep</v-icon>
-                토큰 정리 스케줄러
-              </h3>
+              <h3 class="scheduler-title">토큰 정리 스케줄러</h3>
               <v-chip
                 :color="cleanupStatus.isRunning ? 'success' : 'error'"
                 label
+                :small="$vuetify.breakpoint.smAndDown"
               >
                 {{ cleanupStatus.isRunning ? "실행 중" : "중지됨" }}
               </v-chip>
@@ -148,6 +147,7 @@
 
 <script>
 import { kiwoomStatus } from "@/api/kiwoom";
+import { SchedulerSSE } from "@/services/schedulerSSE";
 
 export default {
   name: "SchedulerStatus",
@@ -166,7 +166,7 @@ export default {
       },
       lastUpdated: "-",
       loading: false,
-      eventSource: null,
+      schedulerSSE: null,
     };
   },
 
@@ -176,47 +176,27 @@ export default {
   },
 
   beforeDestroy() {
-    if (this.eventSource) {
-      this.eventSource.close();
+    if (this.schedulerSSE) {
+      this.schedulerSSE.disconnect();
     }
   },
 
   methods: {
     connectSSE() {
-      const baseURL = process.env.VUE_APP_API_BASE_URL || "/api";
-      const url = `${baseURL}/kiwoom/scheduler/status/stream`;
-      console.log("[Frontend] SSE 연결 시도:", url);
+      this.schedulerSSE = new SchedulerSSE();
 
-      this.eventSource = new EventSource(url);
-
-      this.eventSource.onopen = () => {
-        console.log("[Frontend] SSE 연결 성공!");
-      };
-
-      this.eventSource.addEventListener("refresh-status", (event) => {
-        console.log("[Frontend] refresh-status 받음:", event.data);
-        const data = JSON.parse(event.data);
-        this.refreshStatus = data;
-        this.lastUpdated = new Date().toLocaleTimeString("ko-KR");
+      this.schedulerSSE.connect({
+        onRefreshStatus: (data) => {
+          this.refreshStatus = data;
+          this.lastUpdated = new Date().toLocaleTimeString("ko-KR");
+        },
+        onCleanupStatus: (data) => {
+          this.cleanupStatus = data;
+          this.lastUpdated = new Date().toLocaleTimeString("ko-KR");
+        },
       });
-
-      this.eventSource.addEventListener("cleanup-status", (event) => {
-        console.log("[Frontend] cleanup-status 받음:", event.data);
-        const data = JSON.parse(event.data);
-        this.cleanupStatus = data;
-        this.lastUpdated = new Date().toLocaleTimeString("ko-KR");
-      });
-
-      this.eventSource.onerror = (error) => {
-        console.error("[Frontend] SSE 연결 오류:", error);
-        this.eventSource.close();
-
-        setTimeout(() => {
-          console.log("[Frontend] SSE 재연결 시도...");
-          this.connectSSE();
-        }, 5000);
-      };
     },
+
     async fetchStatus() {
       this.loading = true;
       try {
@@ -262,6 +242,11 @@ export default {
   align-items: center;
 }
 
+.scheduler-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
 .status-label {
   font-size: 14px;
   color: rgba(0, 0, 0, 0.6);
@@ -300,5 +285,24 @@ export default {
 
 .mdi-spin {
   animation: spin 1s linear infinite;
+}
+
+@media (max-width: 960px) {
+  .scheduler-status {
+    margin: 8px;
+  }
+
+  .scheduler-card {
+    padding: 8px;
+  }
+
+  .scheduler-title {
+    font-size: 14px;
+  }
+
+  .status-label,
+  .status-value {
+    font-size: 12px;
+  }
 }
 </style>
