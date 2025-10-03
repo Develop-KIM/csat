@@ -1,9 +1,9 @@
 const axios = require('axios');
-const kiwoomService = require('../services/kiwoomService');
-const kiwoomTokenRepository = require('../repositories/kiwoomTokenRepository');
+const kiwoomService = require('../../services/kiwoomService');
+const kiwoomTokenRepository = require('../../repositories/kiwoomTokenRepository');
 
 jest.mock('axios');
-jest.mock('../repositories/kiwoomTokenRepository');
+jest.mock('../../repositories/kiwoomTokenRepository');
 
 describe('토큰 폐기 테스트', () => {
   beforeEach(() => {
@@ -36,11 +36,15 @@ describe('토큰 폐기 테스트', () => {
         expect.objectContaining({
           token: mockToken,
         }),
-        expect.any(Object)
+        expect.any(Object),
       );
 
-      expect(kiwoomTokenRepository.findByAccessToken).toHaveBeenCalledWith(mockToken);
-      expect(kiwoomTokenRepository.deactivateToken).toHaveBeenCalledWith(mockDbToken.id);
+      expect(kiwoomTokenRepository.findByAccessToken).toHaveBeenCalledWith(
+        mockToken,
+      );
+      expect(kiwoomTokenRepository.deactivateToken).toHaveBeenCalledWith(
+        mockDbToken.id,
+      );
       expect(result.return_code).toBe('0');
     });
 
@@ -65,9 +69,7 @@ describe('토큰 폐기 테스트', () => {
     test('토큰 폐기 실패', async () => {
       const mockToken = 'test_token_123';
 
-      axios.post.mockRejectedValue(
-        new Error('키움 API 요청 실패')
-      );
+      axios.post.mockRejectedValue(new Error('키움 API 요청 실패'));
 
       await expect(kiwoomService.revokeToken(mockToken)).rejects.toThrow();
       expect(kiwoomTokenRepository.deactivateToken).not.toHaveBeenCalled();

@@ -44,19 +44,6 @@ class KiwoomTokenRepository {
     });
   }
 
-  async findAll(options = {}) {
-    return await KiwoomToken.findAll({
-      order: [['created_dt', 'DESC']],
-      ...options,
-    });
-  }
-
-  async countActive() {
-    return await KiwoomToken.count({
-      where: { is_active: true },
-    });
-  }
-
   async deleteExpired(daysAgo = 30) {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - daysAgo);
