@@ -4,13 +4,14 @@ const kiwoomController = require('../controllers/kiwoomController');
 
 /**
  * @swagger
- * tags:
- *   name: Kiwoom
- *   description: 키움증권 토큰 관리 API
+ * /api/kiwoom/token/status:
+ *   get:
+ *     summary: 토큰 상태 조회
+ *     tags: [Kiwoom]
+ *     responses:
+ *       200:
+ *         description: 토큰 상태 조회 성공
  */
-
-router.post('/token', kiwoomController.getToken);
-
-router.delete('/token/revoke', kiwoomController.revokeToken);
+router.get('/token/status', kiwoomController.getTokenStatus);
 
 module.exports = router;

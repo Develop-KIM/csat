@@ -11,7 +11,7 @@ class KiwoomTokenRepository {
           [Op.gt]: new Date(Date.now() + bufferMinutes * 60 * 1000),
         },
       },
-      order: [['created_at', 'DESC']],
+      order: [['created_dt', 'DESC']],
     });
   }
 
@@ -23,7 +23,7 @@ class KiwoomTokenRepository {
       },
       {
         where: { id: tokenId, is_active: true },
-      }
+      },
     );
   }
 
@@ -46,7 +46,7 @@ class KiwoomTokenRepository {
 
   async findAll(options = {}) {
     return await KiwoomToken.findAll({
-      order: [['created_at', 'DESC']],
+      order: [['created_dt', 'DESC']],
       ...options,
     });
   }

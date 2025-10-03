@@ -20,7 +20,7 @@ module.exports = (sequelize) => {
         defaultValue: 'Bearer',
       },
       expires_dt: {
-        type: DataTypes.DATE,
+        type: 'TIMESTAMP(0)',
         allowNull: false,
       },
       return_code: {
@@ -36,16 +36,19 @@ module.exports = (sequelize) => {
         defaultValue: true,
         allowNull: false,
       },
-      revoked_at: {
-        type: DataTypes.DATE,
+      revoked_dt: {
+        type: 'TIMESTAMP(0)',
         allowNull: true,
+      },
+      created_dt: {
+        type: 'TIMESTAMP(0)',
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
       },
     },
     {
       tableName: 'kiwoom_tokens',
-      timestamps: true,
-      createdAt: 'created_at',
-      updatedAt: false,
+      timestamps: false,
       underscored: true,
     },
   );

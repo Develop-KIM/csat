@@ -1,10 +1,7 @@
 const axios = require('axios');
 const kiwoomConfig = require('../config/kiwoom');
 const kiwoomTokenRepository = require('../repositories/kiwoomTokenRepository');
-const {
-  toTokenResponse,
-  toTokenStatusResponse,
-} = require('../utils/tokenFormatter');
+const { toTokenStatusResponse } = require('../utils/tokenFormatter');
 
 const getRequestConfig = () => {
   const config = {
@@ -29,22 +26,21 @@ const createToken = async () => {
       appkey: kiwoomConfig.apiKey,
       secretkey: kiwoomConfig.apiSecret,
     },
-    getRequestConfig()
+    getRequestConfig(),
   );
+  console.log(response.data);
   return response.data;
 };
 
-const getToken = async () => {
+const ensureValidToken = async () => {
   const validToken = await kiwoomTokenRepository.findValidToken(10);
 
   if (validToken) {
-    return toTokenResponse(validToken);
+    return validToken;
   }
 
   const newCreateToken = await createToken();
-  const savedToken = await kiwoomTokenRepository.create(newCreateToken);
-
-  return toTokenResponse(savedToken);
+  return await kiwoomTokenRepository.create(newCreateToken);
 };
 
 const revokeToken = async (token) => {
@@ -55,7 +51,7 @@ const revokeToken = async (token) => {
       secretkey: kiwoomConfig.apiSecret,
       token: token,
     },
-    getRequestConfig()
+    getRequestConfig(),
   );
 
   const dbToken = await kiwoomTokenRepository.findByAccessToken(token);
@@ -67,17 +63,18 @@ const revokeToken = async (token) => {
 };
 
 const getTokenStatus = async () => {
-  const activeCount = await kiwoomTokenRepository.countActive();
+  const activeToken = await kiwoomTokenRepository.findValidToken(0);
   const allTokens = await kiwoomTokenRepository.findAll({ limit: 10 });
 
   return {
-    active_count: activeCount,
-    recentTokens: allTokens.map(toTokenStatusResponse),
+    has_active_token: !!activeToken,
+    active_token: activeToken ? toTokenStatusResponse(activeToken) : null,
+    recent_tokens: allTokens.map(toTokenStatusResponse),
   };
 };
 
 module.exports = {
-  getToken,
+  ensureValidToken,
   revokeToken,
   getTokenStatus,
 };
