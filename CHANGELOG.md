@@ -1,3 +1,12 @@
+# [1.10.0](https://github.com/Develop-KIM/csat/compare/v1.9.0...v1.10.0) (2025-10-03)
+
+
+### Features
+
+* 스케줄러 상태 SSE 적용 ([62379ec](https://github.com/Develop-KIM/csat/commit/62379ec1cdf653121428454e41e06106871786bd))
+* 스케줄러 상태 SSE 적용 ([3f2b60e](https://github.com/Develop-KIM/csat/commit/3f2b60ec7633f262fccd342da84d036b8a66f159))
+* 스케줄러 상태 컴포넌트 작성 ([ed3b177](https://github.com/Develop-KIM/csat/commit/ed3b177d48a0bfb3ffbf034e3caeb61ec4683cec))
+
 # [1.9.0](https://github.com/Develop-KIM/csat/compare/v1.8.0...v1.9.0) (2025-10-03)
 
 
