@@ -13,15 +13,15 @@ const getTokenStatus = async (req, res) => {
   }
 };
 
-// const getTokenRefreshStatus = (req, res) => {
-//   try {
-//     const status = tokenRefreshScheduler.getStatus();
-//     res.json(successResponse(status));
-//   } catch (error) {
-//     console.error('정리 스케줄러 상태 조회 에러:', error.message);
-//     res.status(500).json(errorResponse('상태 조회 실패', error.message));
-//   }
-// };
+const getTokenRefreshStatus = (req, res) => {
+  try {
+    const status = tokenRefreshScheduler.getStatus();
+    res.json(successResponse(status));
+  } catch (error) {
+    console.error('정리 스케줄러 상태 조회 에러:', error.message);
+    res.status(500).json(errorResponse('상태 조회 실패', error.message));
+  }
+};
 
 const getCleanupStatus = (req, res) => {
   try {
@@ -35,6 +35,6 @@ const getCleanupStatus = (req, res) => {
 
 module.exports = {
   getTokenStatus,
-  // getTokenRefreshStatus,
+  getTokenRefreshStatus,
   getCleanupStatus,
 };
