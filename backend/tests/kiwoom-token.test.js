@@ -38,8 +38,8 @@ describe('키움 토큰 발급 테스트', () => {
 
     validateCommonStructure(response);
     expect(response.body.success).toBe(true);
-    expect(response.body.data).toHaveProperty('token');
-    expect(response.body.data.token).toBe('mock_token_12345');
+    expect(response.body.data).toHaveProperty('access_token');
+    expect(response.body.data.access_token).toBe('mock_token_12345');
   });
 
   test('같은 토큰 재사용 확인', async () => {
@@ -47,13 +47,15 @@ describe('키움 토큰 발급 테스트', () => {
       .post('/api/kiwoom/token')
       .expect(200);
 
-    const firstToken = firstResponse.body.data.token;
+    console.log('첫 번째 응답', firstResponse.body);
+    const firstToken = firstResponse.body.data.access_token;
 
     const secondResponse = await request(app)
       .post('/api/kiwoom/token')
       .expect(200);
 
-    const secondToken = secondResponse.body.data.token;
+    console.log('두 번째 응답', secondResponse.body);
+    const secondToken = secondResponse.body.data.access_token;
 
     expect(firstToken).toBe(secondToken);
     expect(axios.post).toHaveBeenCalledTimes(1);

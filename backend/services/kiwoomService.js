@@ -39,7 +39,7 @@ const getToken = async () => {
   const validToken = await kiwoomTokenRepository.findValidToken(10);
 
   if (validToken) {
-    return toTokenResponse(validToken);
+    return validToken;
   }
 
   const newCreateToken = await createToken();

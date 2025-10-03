@@ -34,10 +34,10 @@ module.exports = {
         defaultValue: true,
         allowNull: false,
       },
-      revoked_at: {
+      revoked_dt: {
         type: 'TIMESTAMP(0)',
       },
-      created_at: {
+      created_dt: {
         type: 'TIMESTAMP(0)',
         allowNull: false,
       },
