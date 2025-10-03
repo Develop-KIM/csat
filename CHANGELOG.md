@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/Develop-KIM/csat/compare/v1.6.0...v1.7.0) (2025-10-03)
+
+
+### Features
+
+* 다크 모드 추가 ([68780cd](https://github.com/Develop-KIM/csat/commit/68780cd9df53d8fdbda80da2590c6fac950b3c14))
+
 # [1.6.0](https://github.com/Develop-KIM/csat/compare/v1.5.0...v1.6.0) (2025-10-03)
 
 
