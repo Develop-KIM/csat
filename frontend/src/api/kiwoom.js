@@ -1,6 +1,6 @@
 import api from "./index";
 
-export const kiwoomApi = {
+export const kiwoomStatus = {
   getTokenStatus() {
     return api.get("/kiwoom/token/status");
   },

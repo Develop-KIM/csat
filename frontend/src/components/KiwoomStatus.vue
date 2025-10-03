@@ -1,12 +1,23 @@
 <template>
-  <v-chip :color="statusColor" :text-color="textColor" small class="px-3">
-    <v-icon left small>{{ statusIcon }}</v-icon>
-    <span class="font-weight-medium">{{ statusText }}</span>
-  </v-chip>
+  <div class="d-flex align-center">
+    <v-icon
+      :color="statusColor"
+      :small="$vuetify.breakpoint.smAndDown"
+      class="mr-2"
+    >
+      mdi-circle
+    </v-icon>
+    <span
+      :class="$vuetify.breakpoint.smAndDown ? 'text-caption' : 'text-body-1'"
+      class="font-weight-medium"
+    >
+      {{ statusText }}
+    </span>
+  </div>
 </template>
 
 <script>
-import { kiwoomApi } from "@/api/kiwoom";
+import { kiwoomStatus } from "@/api/kiwoom";
 
 export default {
   name: "KiwoomStatus",
@@ -21,12 +32,6 @@ export default {
     statusColor() {
       return this.isConnected ? "success" : "error";
     },
-    textColor() {
-      return "white";
-    },
-    statusIcon() {
-      return this.isConnected ? "mdi-check-circle" : "mdi-alert-circle";
-    },
     statusText() {
       return this.isConnected ? "키움 연결됨" : "키움 연결 안 됨";
     },
@@ -39,7 +44,7 @@ export default {
   methods: {
     async checkStatus() {
       try {
-        const response = await kiwoomApi.getTokenStatus();
+        const response = await kiwoomStatus.getTokenStatus();
         this.isConnected = response.data.data.is_connected;
       } catch (error) {
         console.error("키움 상태 조회 실패:", error);
