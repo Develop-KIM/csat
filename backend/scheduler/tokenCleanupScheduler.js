@@ -18,7 +18,7 @@ class TokenCleanupScheduler extends EventEmitter {
     }
 
     this.isRunning = true;
-    this.emit('statusChanged', this.getStatus()); // 상태 변경 이벤트
+    this.emit('statusChanged', this.getStatus());
 
     const startTime = new Date();
 
@@ -40,7 +40,7 @@ class TokenCleanupScheduler extends EventEmitter {
         `[TokenCleanup] 종료 시간: ${endTime} (소요: ${duration}초)\n`,
       );
       this.isRunning = false;
-      this.emit('statusChanged', this.getStatus()); // 상태 변경 이벤트
+      this.emit('statusChanged', this.getStatus());
     }
   }
 
