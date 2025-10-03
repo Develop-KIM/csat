@@ -1,6 +1,7 @@
 const cron = require('node-cron');
 const kiwoomTokenRepository = require('../repositories/kiwoomTokenRepository');
 const kiwoomService = require('./kiwoomService');
+const dayjs = require('dayjs');
 
 class TokenRefreshScheduler {
   constructor() {
@@ -20,7 +21,7 @@ class TokenRefreshScheduler {
 
     try {
       console.log(
-        `\n[TokenRefresh] 체크 시작: ${startTime.toLocaleString('ko-KR')}`,
+        `\n[TokenRefresh] 체크 시작: ${dayjs().format('YYYY-MM-DD HH:mm:ss')}`,
       );
 
       const currentToken = await kiwoomTokenRepository.findValidToken(0);
@@ -32,10 +33,7 @@ class TokenRefreshScheduler {
 
         console.log(`[TokenRefresh] 현재 토큰 상태:`);
         console.log(
-          `[TokenRefresh]   - 만료까지 남은 시간: ${minutesUntilExpiry.toFixed(0)}분`,
-        );
-        console.log(
-          `[TokenRefresh]   - 만료 시각: ${expiresDt.toLocaleString('ko-KR')}`,
+          `[TokenRefresh] 만료 시각: ${dayjs(expiresDt).format('YYYY-MM-DD HH:mm:ss')}`,
         );
 
         if (minutesUntilExpiry > this.REFRESH_BUFFER_MINUTES) {
@@ -45,9 +43,7 @@ class TokenRefreshScheduler {
         console.log(
           `[TokenRefresh] 토큰 갱신 필요 (만료까지 ${this.REFRESH_BUFFER_MINUTES}분 미만)`,
         );
-      }
 
-      if (currentToken) {
         console.log('[TokenRefresh] 기존 토큰 폐기 시도');
         try {
           await kiwoomService.revokeToken(currentToken.access_token);
@@ -60,7 +56,14 @@ class TokenRefreshScheduler {
         }
       }
 
-      const newToken = await kiwoomService.getToken();
+      console.log('[TokenRefresh] 새 토큰 생성 시도');
+      const newToken = await kiwoomService.ensureValidToken();
+
+      console.log('[TokenRefresh] 새 토큰 생성 완료');
+      console.log(`[TokenRefresh]   - 토큰 ID: ${newToken.id}`);
+      console.log(
+        `[TokenRefresh] 만료 시각: ${dayjs(newToken.expires_dt).format('YYYY-MM-DD HH:mm:ss')}`,
+      );
 
       const duration = ((new Date() - startTime) / 1000).toFixed(2);
       console.log(`[TokenRefresh] 토큰 갱신 완료 (소요시간: ${duration}초)\n`);

@@ -32,7 +32,7 @@ const createToken = async () => {
   return response.data;
 };
 
-const getToken = async () => {
+const ensureValidToken = async () => {
   const validToken = await kiwoomTokenRepository.findValidToken(10);
 
   if (validToken) {
@@ -74,7 +74,7 @@ const getTokenStatus = async () => {
 };
 
 module.exports = {
-  getToken,
+  ensureValidToken,
   revokeToken,
   getTokenStatus,
 };
