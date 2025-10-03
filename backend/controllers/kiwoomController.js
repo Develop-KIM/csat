@@ -2,6 +2,10 @@ const { successResponse, errorResponse } = require('../utils/response');
 const kiwoomService = require('../services/kiwoomService');
 const tokenRefreshScheduler = require('../scheduler/tokenRefreshScheduler');
 const tokenCleanupScheduler = require('../scheduler/tokenCleanupScheduler');
+const { setSSEHeaders } = require('../config/sse');
+
+const sseConfig = require('../services/sseService');
+const schedulerSSEService = require('../services/schedulerSSEService');
 
 const getTokenStatus = async (req, res) => {
   try {
@@ -34,61 +38,22 @@ const getCleanupStatus = (req, res) => {
 };
 
 const streamSchedulerStatus = (req, res) => {
-  console.log('[SSE] 클라이언트 연결 요청 받음');
+  console.log('[SSE] 클라이언트 연결 요청');
 
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader(
-    'Access-Control-Expose-Headers',
-    'Content-Type, Cache-Control, X-Accel-Buffering',
+  setSSEHeaders(res);
+
+  const initialData = schedulerSSEService.getInitialData();
+  res.write(
+    `event: refresh-status\ndata: ${JSON.stringify(initialData.refresh)}\n\n`,
+  );
+  res.write(
+    `event: cleanup-status\ndata: ${JSON.stringify(initialData.cleanup)}\n\n`,
   );
 
-  res.setHeader('Content-Type', 'text/event-stream');
-  res.setHeader('Cache-Control', 'no-cache');
-  res.setHeader('Connection', 'keep-alive');
-  res.setHeader('X-Accel-Buffering', 'no');
-
-  const refreshStatus = tokenRefreshScheduler.getStatus();
-  const cleanupStatus = tokenCleanupScheduler.getStatus();
-
-  console.log('[SSE] Refresh 상태:', refreshStatus);
-  console.log('[SSE] Cleanup 상태:', cleanupStatus);
-
-  const refreshData = `event: refresh-status\ndata: ${JSON.stringify(refreshStatus)}\n\n`;
-  const cleanupData = `event: cleanup-status\ndata: ${JSON.stringify(cleanupStatus)}\n\n`;
-
-  console.log('[SSE] 전송할 refresh 데이터:', refreshData);
-  console.log('[SSE] 전송할 cleanup 데이터:', cleanupData);
-
-  res.write(refreshData);
-  res.write(cleanupData);
-
-  console.log('[SSE] 초기 데이터 전송 완료');
-
-  const refreshListener = (status) => {
-    console.log('[SSE] Refresh 상태 변경:', status);
-    res.write(`event: refresh-status\ndata: ${JSON.stringify(status)}\n\n`);
-  };
-
-  const cleanupListener = (status) => {
-    console.log('[SSE] Cleanup 상태 변경:', status);
-    res.write(`event: cleanup-status\ndata: ${JSON.stringify(status)}\n\n`);
-  };
-
-  tokenRefreshScheduler.on('statusChanged', refreshListener);
-  tokenCleanupScheduler.on('statusChanged', cleanupListener);
-
-  const heartbeat = setInterval(() => {
-    console.log('[SSE] Heartbeat 전송');
-    res.write(': heartbeat\n\n');
-  }, 30000);
+  sseConfig.addClient(res);
 
   req.on('close', () => {
-    console.log('[SSE] 클라이언트 연결 종료');
-    clearInterval(heartbeat);
-    tokenRefreshScheduler.off('statusChanged', refreshListener);
-    tokenCleanupScheduler.off('statusChanged', cleanupListener);
-    res.end();
+    sseConfig.removeClient(res);
   });
 };
 
