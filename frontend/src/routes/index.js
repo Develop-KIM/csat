@@ -4,6 +4,16 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 export const router = new VueRouter({
-	mode: "history",
-	routes: []
+  mode: "history",
+  routes: [
+    {
+      path: "/",
+      redirect: "/dashboard",
+    },
+    {
+      path: "/dashboard",
+      name: "Dashboard",
+      component: () => import("@/pages/Dashboard.vue"),
+    },
+  ],
 });

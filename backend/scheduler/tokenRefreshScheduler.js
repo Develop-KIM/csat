@@ -1,9 +1,11 @@
 const cron = require('node-cron');
 const kiwoomTokenRepository = require('../repositories/kiwoomTokenRepository');
 const kiwoomService = require('../services/kiwoomService');
+const EventEmitter = require('events');
 
-class TokenRefreshScheduler {
+class TokenRefreshScheduler extends EventEmitter {
   constructor() {
+    super();
     this.isRunning = false;
     this.scheduler = null;
     this.REFRESH_BUFFER_MINUTES = 30;
@@ -16,6 +18,8 @@ class TokenRefreshScheduler {
     }
 
     this.isRunning = true;
+    this.emit('statusChanged', this.getStatus());
+
     const startTime = new Date();
 
     try {
@@ -58,6 +62,7 @@ class TokenRefreshScheduler {
         `[TokenRefresh] 종료 시간: ${endTime} (소요: ${duration}초)\n`,
       );
       this.isRunning = false;
+      this.emit('statusChanged', this.getStatus());
     }
   }
 
@@ -70,6 +75,8 @@ class TokenRefreshScheduler {
       await this.refreshToken();
     });
 
+    this.emit('statusChanged', this.getStatus());
+
     setTimeout(() => {
       this.refreshToken();
     }, 5000);
@@ -80,6 +87,7 @@ class TokenRefreshScheduler {
       this.scheduler.stop();
       this.scheduler = null;
       console.log('[TokenRefresh] 스케줄러 중지');
+      this.emit('statusChanged', this.getStatus());
     }
   }
 

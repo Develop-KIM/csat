@@ -1,9 +1,11 @@
 const cron = require('node-cron');
 const kiwoomService = require('../services/kiwoomService');
 const dayjs = require('dayjs');
+const EventEmitter = require('events');
 
-class TokenCleanupScheduler {
+class TokenCleanupScheduler extends EventEmitter {
   constructor() {
+    super();
     this.isRunning = false;
     this.scheduler = null;
     this.DAYS_AFTER_EXPIRY = 7;
@@ -16,6 +18,8 @@ class TokenCleanupScheduler {
     }
 
     this.isRunning = true;
+    this.emit('statusChanged', this.getStatus());
+
     const startTime = new Date();
 
     try {
@@ -36,6 +40,7 @@ class TokenCleanupScheduler {
         `[TokenCleanup] 종료 시간: ${endTime} (소요: ${duration}초)\n`,
       );
       this.isRunning = false;
+      this.emit('statusChanged', this.getStatus());
     }
   }
 
@@ -48,6 +53,8 @@ class TokenCleanupScheduler {
       await this.cleanupTokens();
     });
 
+    this.emit('statusChanged', this.getStatus());
+
     setTimeout(() => {
       this.cleanupTokens();
     }, 5000);
@@ -58,6 +65,7 @@ class TokenCleanupScheduler {
       this.scheduler.stop();
       this.scheduler = null;
       console.log('[TokenCleanup] 스케줄러 중지');
+      this.emit('statusChanged', this.getStatus());
     }
   }
 

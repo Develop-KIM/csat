@@ -10,8 +10,19 @@ global.dayjs = require('dayjs');
 
 const app = express();
 
-app.use(helmet());
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+    exposedHeaders: ['Content-Type', 'Cache-Control', 'X-Accel-Buffering'],
+  }),
+);
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+  }),
+);
 app.use(morgan('dev'));
 app.use(express.json());
 

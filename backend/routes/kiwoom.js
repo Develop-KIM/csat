@@ -36,4 +36,13 @@ router.get('/token/refresh/status', kiwoomController.getTokenRefreshStatus);
  */
 router.get('/tokens/cleanup/status', kiwoomController.getCleanupStatus);
 
+/**
+ * @swagger
+ * /api/kiwoom/scheduler/status/stream:
+ *   get:
+ *     summary: 스케줄러 상태 실시간 스트림 (SSE)
+ *     tags: [Kiwoom]
+ */
+router.get('/scheduler/status/stream', kiwoomController.streamSchedulerStatus);
+
 module.exports = router;
