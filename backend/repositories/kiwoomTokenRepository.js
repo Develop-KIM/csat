@@ -11,7 +11,7 @@ class KiwoomTokenRepository {
           [Op.gt]: new Date(Date.now() + bufferMinutes * 60 * 1000),
         },
       },
-      order: [['created_dt', 'DESC']],
+      order: [['expires_dt', 'ASC']],
     });
   }
 
@@ -41,19 +41,6 @@ class KiwoomTokenRepository {
   async findByAccessToken(accessToken) {
     return KiwoomToken.findOne({
       where: { access_token: accessToken },
-    });
-  }
-
-  async findAll(options = {}) {
-    return await KiwoomToken.findAll({
-      order: [['created_dt', 'DESC']],
-      ...options,
-    });
-  }
-
-  async countActive() {
-    return await KiwoomToken.count({
-      where: { is_active: true },
     });
   }
 

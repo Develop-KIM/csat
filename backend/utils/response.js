@@ -1,8 +1,7 @@
 const createResponse = (data, message = '', success = true) => ({
-  data,
-  message,
   success,
-  timestamp: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+  message,
+  data,
 });
 
 const successResponse = (data, message = '성공') =>
