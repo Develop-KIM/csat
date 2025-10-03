@@ -29,8 +29,9 @@ const createToken = async () => {
       appkey: kiwoomConfig.apiKey,
       secretkey: kiwoomConfig.apiSecret,
     },
-    getRequestConfig()
+    getRequestConfig(),
   );
+  console.log(response.data);
   return response.data;
 };
 
@@ -42,9 +43,7 @@ const getToken = async () => {
   }
 
   const newCreateToken = await createToken();
-  const savedToken = await kiwoomTokenRepository.create(newCreateToken);
-
-  return toTokenResponse(savedToken);
+  return await kiwoomTokenRepository.create(newCreateToken);
 };
 
 const revokeToken = async (token) => {
@@ -55,7 +54,7 @@ const revokeToken = async (token) => {
       secretkey: kiwoomConfig.apiSecret,
       token: token,
     },
-    getRequestConfig()
+    getRequestConfig(),
   );
 
   const dbToken = await kiwoomTokenRepository.findByAccessToken(token);

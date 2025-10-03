@@ -20,7 +20,7 @@ module.exports = {
         defaultValue: 'Bearer',
       },
       expires_dt: {
-        type: Sequelize.DATE,
+        type: 'TIMESTAMP(0)',
         allowNull: false,
       },
       return_code: {
@@ -35,16 +35,16 @@ module.exports = {
         allowNull: false,
       },
       revoked_at: {
-        type: Sequelize.DATE,
+        type: 'TIMESTAMP(0)',
       },
       created_at: {
-        type: Sequelize.DATE,
+        type: 'TIMESTAMP(0)',
         allowNull: false,
-      }
+      },
     });
   },
 
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('kiwoom_tokens');
-  }
+  },
 };
