@@ -61,6 +61,16 @@ const revokeToken = async (token) => {
   return response.data;
 };
 
+const cleanupExpiredTokens = async (daysAfterExpiry = 7) => {
+  const deletedCount =
+    await kiwoomTokenRepository.deleteExpiredTokens(daysAfterExpiry);
+
+  return {
+    deletedCount,
+    timestamp: new Date(),
+  };
+};
+
 const getTokenStatus = async () => {
   const activeToken = await kiwoomTokenRepository.findValidToken(0);
 
@@ -72,5 +82,6 @@ const getTokenStatus = async () => {
 module.exports = {
   ensureValidToken,
   revokeToken,
+  cleanupExpiredTokens,
   getTokenStatus,
 };

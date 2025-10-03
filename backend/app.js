@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const { swaggerUi, swaggerDocument } = require('./swagger');
+const { swaggerUi, swaggerDocument } = require('./swagger/swagger');
 require('dotenv').config();
 
 global.asyncHandling = require('express-async-handler');
