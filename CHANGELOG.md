@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/Develop-KIM/csat/compare/v1.8.0...v1.9.0) (2025-10-03)
+
+
+### Features
+
+* 토큰 재발급 스케줄러 상태 조회 추가 ([635e47e](https://github.com/Develop-KIM/csat/commit/635e47e258ce13bdf3c4293d3842f35a3f2e031d))
+
 # [1.8.0](https://github.com/Develop-KIM/csat/compare/v1.7.0...v1.8.0) (2025-10-03)
 
 
