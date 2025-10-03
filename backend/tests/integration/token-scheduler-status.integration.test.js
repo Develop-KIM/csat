@@ -1,10 +1,10 @@
+jest.mock('../../scheduler/tokenRefreshScheduler');
+jest.mock('../../scheduler/tokenCleanupScheduler');
+
 const request = require('supertest');
 const app = require('../../app');
 const tokenRefreshScheduler = require('../../scheduler/tokenRefreshScheduler');
 const tokenCleanupScheduler = require('../../scheduler/tokenCleanupScheduler');
-
-jest.mock('../../scheduler/tokenRefreshScheduler');
-jest.mock('../../scheduler/tokenCleanupScheduler');
 
 describe('GET /api/kiwoom/token/refresh/status', () => {
   beforeEach(() => {

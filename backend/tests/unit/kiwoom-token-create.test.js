@@ -1,9 +1,9 @@
+jest.mock('axios');
+jest.mock('../../repositories/kiwoomTokenRepository');
+
 const kiwoomService = require('../../services/kiwoomService');
 const kiwoomTokenRepository = require('../../repositories/kiwoomTokenRepository');
 const axios = require('axios');
-
-jest.mock('axios');
-jest.mock('../../repositories/kiwoomTokenRepository');
 
 describe('토큰 생성 테스트', () => {
   beforeEach(() => {
