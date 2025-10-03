@@ -1,3 +1,14 @@
+# [1.5.0](https://github.com/Develop-KIM/csat/compare/v1.4.0...v1.5.0) (2025-10-03)
+
+
+### Features
+
+* add token creation tests and refactor token handling in service ([d362ad8](https://github.com/Develop-KIM/csat/commit/d362ad8a3af36f02f2a12b6c859ac991f394160c))
+* update token handling to use access_token and adjust database fields ([291c379](https://github.com/Develop-KIM/csat/commit/291c379ac0ca4125cae05d6e69f3249587e7cc27))
+* 상태 조회 API 추가 ([023e689](https://github.com/Develop-KIM/csat/commit/023e689c56fdb8b32c8dfe8a2e1d23983f80acbc))
+* 상태 조회 API 추가 ([16473a5](https://github.com/Develop-KIM/csat/commit/16473a5b2bc598b93a914b3b1ddaa8cb4ef9e5df))
+* 토큰 재발급 기능 추가 ([ee534fa](https://github.com/Develop-KIM/csat/commit/ee534fa2f128173ef4a545645517275943953f67))
+
 # [1.4.0](https://github.com/Develop-KIM/csat/compare/v1.3.0...v1.4.0) (2025-10-03)
 
 
