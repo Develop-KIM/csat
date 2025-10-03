@@ -11,7 +11,6 @@ class KiwoomTokenRepository {
           [Op.gt]: new Date(Date.now() + bufferMinutes * 60 * 1000),
         },
       },
-      order: [['created_dt', 'DESC']],
     });
   }
 
