@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/Develop-KIM/csat/compare/v1.7.0...v1.8.0) (2025-10-03)
+
+
+### Features
+
+* 만료 토큰 삭제 스케줄러 및 스케줄러 상태 조회 API 추가 ([59c86a6](https://github.com/Develop-KIM/csat/commit/59c86a6185daef3eae54938ebe18ec27dabcd00d))
+
 # [1.7.0](https://github.com/Develop-KIM/csat/compare/v1.6.0...v1.7.0) (2025-10-03)
 
 
