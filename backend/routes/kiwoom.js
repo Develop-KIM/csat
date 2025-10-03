@@ -25,7 +25,7 @@ router.get('/token/status', kiwoomController.getTokenStatus);
  *     summary: 토큰 재발급 스케줄러 상태 조회
  *     tags: [Kiwoom]
  */
-// router.get('/token/refresh/status', kiwoomController.getTokenRefreshStatus);
+router.get('/token/refresh/status', kiwoomController.getTokenRefreshStatus);
 
 /**
  * @swagger
