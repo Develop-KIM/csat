@@ -4,6 +4,7 @@
       <v-toolbar-title class="font-weight-bold"> CSAT </v-toolbar-title>
       <v-spacer></v-spacer>
       <kiwoom-status class="mr-2" />
+      <theme-toggle />
     </v-app-bar>
 
     <v-main>
@@ -16,11 +17,13 @@
 
 <script>
 import KiwoomStatus from "@/components/KiwoomStatus.vue";
+import ThemeToggle from "@/components/ThemeToggle.vue";
 
 export default {
   name: "App",
   components: {
     KiwoomStatus,
+    ThemeToggle,
   },
 };
 </script>
