@@ -20,7 +20,7 @@ const getToken = async (req, res) => {
 const revokeToken = async (req, res) => {
   try {
     const { token } = req.body;
-    
+
     if (!token) {
       return res.status(400).json(errorResponse('토큰이 필요합니다'));
     }
@@ -31,11 +31,24 @@ const revokeToken = async (req, res) => {
     console.error('토큰 폐기 에러:', error.response?.data || error.message);
     res
       .status(error.response?.status || 500)
-      .json(errorResponse('토큰 폐기 실패', error.response?.data || error.message));
+      .json(
+        errorResponse('토큰 폐기 실패', error.response?.data || error.message),
+      );
+  }
+};
+
+const getTokenStatus = async (req, res) => {
+  try {
+    const status = await kiwoomService.getTokenStatus();
+    res.json(successResponse(status, '토큰 상태 조회 성공'));
+  } catch (error) {
+    console.error('토큰 상태 조회 에러:', error.message);
+    res.status(500).json(errorResponse('토큰 상태 조회 실패', error.message));
   }
 };
 
 module.exports = {
   getToken,
   revokeToken,
+  getTokenStatus,
 };
