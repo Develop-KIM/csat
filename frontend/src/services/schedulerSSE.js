@@ -20,7 +20,6 @@ export class SchedulerSSE {
     this.connection = new SSEConnection(url);
 
     this.connection.on("refresh-status", (event) => {
-      console.log("[SchedulerSSE] refresh-status 받음:", event.data);
       const data = JSON.parse(event.data);
       if (this.callbacks.onRefreshStatus) {
         this.callbacks.onRefreshStatus(data);
@@ -28,7 +27,6 @@ export class SchedulerSSE {
     });
 
     this.connection.on("cleanup-status", (event) => {
-      console.log("[SchedulerSSE] cleanup-status 받음:", event.data);
       const data = JSON.parse(event.data);
       if (this.callbacks.onCleanupStatus) {
         this.callbacks.onCleanupStatus(data);

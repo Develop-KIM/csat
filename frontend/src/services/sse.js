@@ -7,7 +7,7 @@ export class SSEConnection {
   }
 
   connect() {
-    console.log("[SSE] 연결 시도:", this.url);
+    console.log("[SSE] 연결 시도");
 
     this.eventSource = new EventSource(this.url);
 
@@ -20,12 +20,11 @@ export class SSEConnection {
       this.close();
 
       setTimeout(() => {
-        console.log("[SSE] 재연결 시도...");
+        console.log("[SSE] 재연결 시도");
         this.connect();
       }, this.reconnectDelay);
     };
 
-    // 등록된 이벤트 리스너 재연결
     this.listeners.forEach((callback, eventName) => {
       this.eventSource.addEventListener(eventName, callback);
     });
@@ -37,16 +36,6 @@ export class SSEConnection {
     if (this.eventSource) {
       this.eventSource.addEventListener(eventName, callback);
     }
-  }
-
-  off(eventName) {
-    const callback = this.listeners.get(eventName);
-
-    if (callback && this.eventSource) {
-      this.eventSource.removeEventListener(eventName, callback);
-    }
-
-    this.listeners.delete(eventName);
   }
 
   close() {

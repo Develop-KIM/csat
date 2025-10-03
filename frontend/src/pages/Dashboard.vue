@@ -1,4 +1,3 @@
-<!-- pages/Dashboard.vue -->
 <template>
   <v-container fluid>
     <v-row>
