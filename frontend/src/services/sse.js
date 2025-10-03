@@ -9,7 +9,7 @@ export class SSEConnection {
   connect() {
     console.log("[SSE] 연결 시도");
 
-    this.eventSource = new EventSource(this.url);
+    this.eventSource = new EventSource(this.url, { withCredentials: true });
 
     this.eventSource.onopen = () => {
       console.log("[SSE] 연결 성공");
