@@ -1,7 +1,6 @@
 const cron = require('node-cron');
 const kiwoomTokenRepository = require('../repositories/kiwoomTokenRepository');
 const kiwoomService = require('./kiwoomService');
-const dayjs = require('dayjs');
 
 class TokenRefreshScheduler {
   constructor() {
@@ -31,23 +30,12 @@ class TokenRefreshScheduler {
         const now = new Date();
         const minutesUntilExpiry = (expiresDt - now) / (1000 * 60);
 
-        console.log(`[TokenRefresh] 현재 토큰 상태:`);
-        console.log(
-          `[TokenRefresh] 만료 시각: ${dayjs(expiresDt).format('YYYY-MM-DD HH:mm:ss')}`,
-        );
-
         if (minutesUntilExpiry > this.REFRESH_BUFFER_MINUTES) {
           return;
         }
 
-        console.log(
-          `[TokenRefresh] 토큰 갱신 필요 (만료까지 ${this.REFRESH_BUFFER_MINUTES}분 미만)`,
-        );
-
-        console.log('[TokenRefresh] 기존 토큰 폐기 시도');
         try {
           await kiwoomService.revokeToken(currentToken.access_token);
-          console.log('[TokenRefresh] 기존 토큰 폐기 완료');
         } catch (revokeError) {
           console.warn(
             '[TokenRefresh] 기존 토큰 폐기 실패 (치명적 아님):',
@@ -56,32 +44,25 @@ class TokenRefreshScheduler {
         }
       }
 
-      console.log('[TokenRefresh] 새 토큰 생성 시도');
       const newToken = await kiwoomService.ensureValidToken();
-
-      console.log('[TokenRefresh] 새 토큰 생성 완료');
-      console.log(`[TokenRefresh]   - 토큰 ID: ${newToken.id}`);
-      console.log(
-        `[TokenRefresh] 만료 시각: ${dayjs(newToken.expires_dt).format('YYYY-MM-DD HH:mm:ss')}`,
-      );
-
-      const duration = ((new Date() - startTime) / 1000).toFixed(2);
-      console.log(`[TokenRefresh] 토큰 갱신 완료 (소요시간: ${duration}초)\n`);
     } catch (error) {
       console.error('[TokenRefresh] 토큰 갱신 실패');
       console.error(`[TokenRefresh] 에러: ${error.message}`);
-
       if (error.response) {
         console.error(`[TokenRefresh] API 응답:`, error.response.data);
       }
     } finally {
+      const duration = ((new Date() - startTime) / 1000).toFixed(2);
+      const endTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
+      console.log(
+        `[TokenRefresh] 종료 시간: ${endTime} (소요: ${duration}초)\n`,
+      );
       this.isRunning = false;
     }
   }
 
   start() {
     if (this.scheduler) {
-      console.log('[TokenRefresh] 스케줄러 이미 실행 중');
       return;
     }
 
@@ -89,15 +70,7 @@ class TokenRefreshScheduler {
       await this.refreshToken();
     });
 
-    console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log('토큰 자동 갱신 스케줄러 시작');
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log('스케줄: 평일 오전 08:00 (월~금)');
-    console.log('목표: 장 시작 전 토큰 준비 (09:00)');
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
-
     setTimeout(() => {
-      console.log('[TokenRefresh] 초기 토큰 체크');
       this.refreshToken();
     }, 5000);
   }
@@ -111,7 +84,6 @@ class TokenRefreshScheduler {
   }
 
   async triggerManualRefresh() {
-    console.log('[TokenRefresh] 수동 갱신 트리거');
     await this.refreshToken();
   }
 
