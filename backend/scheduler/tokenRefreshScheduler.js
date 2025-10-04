@@ -21,7 +21,7 @@ class TokenRefreshScheduler extends EventEmitter {
     this.isRunning = true;
     this.emit('statusChanged', this.getStatus());
 
-    const startTime = new Date();
+    const startTime = dayjs();
 
     await notification.notifySchedulerStart('토큰 재발급 스케줄러 시작');
 
@@ -53,7 +53,7 @@ class TokenRefreshScheduler extends EventEmitter {
 
       const newToken = await kiwoomService.ensureValidToken();
 
-      const duration = ((new Date() - startTime) / 1000).toFixed(2);
+      const duration = dayjs().diff(startTime, 'second', true).toFixed(2);
       await notification.notifySchedulerComplete(
         '토큰 재발급 스케줄러',
         duration,
@@ -68,7 +68,7 @@ class TokenRefreshScheduler extends EventEmitter {
         console.error(`[TokenRefresh] API 응답:`, error.response.data);
       }
     } finally {
-      const duration = ((new Date() - startTime) / 1000).toFixed(2);
+      const duration = dayjs().diff(startTime, 'second', true).toFixed(2);
       const endTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
       console.log(
         `[TokenRefresh] 종료 시간: ${endTime} (소요: ${duration}초)\n`,

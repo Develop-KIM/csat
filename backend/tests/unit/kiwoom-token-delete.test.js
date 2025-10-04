@@ -24,7 +24,7 @@ describe('KiwoomService - cleanupExpiredTokens', () => {
   test('기본값 7일로 동작', async () => {
     kiwoomTokenRepository.deleteExpiredTokens.mockResolvedValue(0);
 
-    await kiwoomService.cleanupExpiredTokens();
+    await kiwoomService.cleanupExpiredTokens(7);
 
     expect(kiwoomTokenRepository.deleteExpiredTokens).toHaveBeenCalledWith(7);
   });
