@@ -60,7 +60,7 @@ const revokeToken = async (token) => {
   return response.data;
 };
 
-const cleanupExpiredTokens = async (daysAfterExpiry = 7) => {
+const cleanupExpiredTokens = async (daysAfterExpiry) => {
   const deletedCount =
     await kiwoomTokenRepository.deleteExpiredTokens(daysAfterExpiry);
 

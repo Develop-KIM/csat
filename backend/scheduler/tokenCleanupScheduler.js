@@ -34,7 +34,9 @@ class TokenCleanupScheduler extends EventEmitter {
         this.DAYS_AFTER_EXPIRY,
       );
 
-      const duration = ((new Date() - startTime) / 1000).toFixed(2);
+      const duration = dayjs()
+        .diff(dayjs(startTime), 'second', true)
+        .toFixed(2);
       await notification.notifySchedulerComplete(
         '토큰 정리 스케줄러',
         duration,
@@ -45,7 +47,9 @@ class TokenCleanupScheduler extends EventEmitter {
 
       await notification.notifySchedulerError('토큰 정리 스케줄러', error);
     } finally {
-      const duration = ((new Date() - startTime) / 1000).toFixed(2);
+      const duration = dayjs()
+        .diff(dayjs(startTime), 'second', true)
+        .toFixed(2);
       const endTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
       console.log(
         `[TokenCleanup] 종료 시간: ${endTime} (소요: ${duration}초)\n`,
