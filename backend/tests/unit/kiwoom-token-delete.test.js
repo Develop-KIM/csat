@@ -1,6 +1,6 @@
 jest.mock('../../repositories/kiwoomTokenRepository');
 
-const kiwoomService = require('../../services/kiwoomService');
+const kiwoomService = require('../../services/tokenService');
 const kiwoomTokenRepository = require('../../repositories/kiwoomTokenRepository');
 
 describe('KiwoomService - cleanupExpiredTokens', () => {

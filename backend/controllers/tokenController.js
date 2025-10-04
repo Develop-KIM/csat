@@ -1,5 +1,5 @@
 const { successResponse, errorResponse } = require('../utils/response');
-const kiwoomService = require('../services/kiwoomService');
+const kiwoomService = require('../services/tokenService');
 const tokenRefreshScheduler = require('../scheduler/tokenRefreshScheduler');
 const tokenCleanupScheduler = require('../scheduler/tokenCleanupScheduler');
 const { setSSEHeaders } = require('../config/sse');

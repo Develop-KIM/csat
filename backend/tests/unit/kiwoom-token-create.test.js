@@ -1,7 +1,7 @@
 jest.mock('axios');
 jest.mock('../../repositories/kiwoomTokenRepository');
 
-const kiwoomService = require('../../services/kiwoomService');
+const kiwoomService = require('../../services/tokenService');
 const kiwoomTokenRepository = require('../../repositories/kiwoomTokenRepository');
 const axios = require('axios');
 

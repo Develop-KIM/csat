@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const kiwoomController = require('../controllers/kiwoomController');
+const tokenController = require('../controllers/tokenController');
 
 /**
  * @swagger
@@ -16,7 +16,7 @@ const kiwoomController = require('../controllers/kiwoomController');
  *     summary: 키움 연동 상태 조회
  *     tags: [Kiwoom]
  */
-router.get('/token/status', kiwoomController.getTokenStatus);
+router.get('/token/status', tokenController.getTokenStatus);
 
 /**
  * @swagger
@@ -25,7 +25,7 @@ router.get('/token/status', kiwoomController.getTokenStatus);
  *     summary: 토큰 재발급 스케줄러 상태 조회
  *     tags: [Kiwoom]
  */
-router.get('/token/refresh/status', kiwoomController.getTokenRefreshStatus);
+router.get('/token/refresh/status', tokenController.getTokenRefreshStatus);
 
 /**
  * @swagger
@@ -34,7 +34,7 @@ router.get('/token/refresh/status', kiwoomController.getTokenRefreshStatus);
  *     summary: 토큰 정리 스케줄러 상태 조회
  *     tags: [Kiwoom]
  */
-router.get('/tokens/cleanup/status', kiwoomController.getCleanupStatus);
+router.get('/tokens/cleanup/status', tokenController.getCleanupStatus);
 
 /**
  * @swagger
@@ -43,6 +43,6 @@ router.get('/tokens/cleanup/status', kiwoomController.getCleanupStatus);
  *     summary: 스케줄러 상태 실시간 스트림 (SSE)
  *     tags: [Kiwoom]
  */
-router.get('/scheduler/status/stream', kiwoomController.streamSchedulerStatus);
+router.get('/scheduler/status/stream', tokenController.streamSchedulerStatus);
 
 module.exports = router;
