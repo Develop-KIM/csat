@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/Develop-KIM/csat/compare/v1.11.0...v1.12.0) (2025-10-04)
+
+
+### Features
+
+* 잔고 조회 구현 ([0be5308](https://github.com/Develop-KIM/csat/commit/0be5308e6e78d00a57ea498c128d2daad0f3c657))
+
 # [1.11.0](https://github.com/Develop-KIM/csat/compare/v1.10.0...v1.11.0) (2025-10-04)
 
 
