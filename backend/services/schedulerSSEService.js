@@ -51,4 +51,4 @@ if (process.env.NODE_ENV !== 'test') {
   instance.init();
 }
 
-module.exports = new SchedulerSSEService();
+module.exports = instance;
