@@ -45,13 +45,18 @@ class KiwoomTokenRepository {
   }
 
   async deleteExpiredTokens(daysAfterExpiry) {
-    const cutoffDate = new Date();
-    cutoffDate.setDate(cutoffDate.getDate() - daysAfterExpiry);
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    now.setDate(now.getDate() - daysAfterExpiry);
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    const cutoffDateStr = `${yyyy}-${mm}-${dd} 00:00:00`;
 
     return await KiwoomToken.destroy({
       where: {
         expires_dt: {
-          [Op.lt]: cutoffDate,
+          [Op.lt]: cutoffDateStr,
         },
       },
     });
