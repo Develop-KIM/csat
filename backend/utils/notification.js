@@ -23,7 +23,10 @@ class DiscordNotification {
         ],
       });
     } catch (error) {
-      console.error('[Discord] 알림 전송 실패:', error.message);
+      console.error(
+        `[Discord] 알림 전송 실패 (title: ${message.title || 'N/A'}, description: ${message.description || 'N/A'}):`,
+        error.message,
+      );
     }
   }
 

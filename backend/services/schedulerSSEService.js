@@ -17,7 +17,9 @@ class SchedulerSSEService {
       sseConfig.broadcast('cleanup-status', status);
     });
 
-    this.startHeartbeat();
+    if (process.env.NODE_ENV !== 'test') {
+      this.startHeartbeat();
+    }
   }
 
   startHeartbeat() {
@@ -41,6 +43,12 @@ class SchedulerSSEService {
       cleanup: tokenCleanupScheduler.getStatus(),
     };
   }
+}
+
+const instance = new SchedulerSSEService();
+
+if (process.env.NODE_ENV !== 'test') {
+  instance.init();
 }
 
 module.exports = new SchedulerSSEService();
