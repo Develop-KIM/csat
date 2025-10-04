@@ -1,3 +1,15 @@
+# [1.11.0](https://github.com/Develop-KIM/csat/compare/v1.10.0...v1.11.0) (2025-10-04)
+
+
+### Features
+
+* 스케줄러 디스코드 알림 구현 ([c912f1f](https://github.com/Develop-KIM/csat/commit/c912f1f3b871b060aa6b5f3927b1b0fa3e037133))
+
+
+### Performance Improvements
+
+* 테스트 환경에선 인스턴스만 생성하도록 수정 및 테스트 환경에서 heartbeat 시작 하지 않도록 수정 ([da6f10e](https://github.com/Develop-KIM/csat/commit/da6f10e7d9522dc4f6799c788654df8f5d505d18))
+
 # [1.10.0](https://github.com/Develop-KIM/csat/compare/v1.9.0...v1.10.0) (2025-10-03)
 
 
