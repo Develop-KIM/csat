@@ -2,6 +2,7 @@ const cron = require('node-cron');
 const kiwoomTokenRepository = require('../repositories/kiwoomTokenRepository');
 const kiwoomService = require('../services/kiwoomService');
 const EventEmitter = require('events');
+const notification = require('../utils/notification');
 
 class TokenRefreshScheduler extends EventEmitter {
   constructor() {
@@ -21,6 +22,8 @@ class TokenRefreshScheduler extends EventEmitter {
     this.emit('statusChanged', this.getStatus());
 
     const startTime = new Date();
+
+    await notification.notifySchedulerStart('토큰 재발급 스케줄러 시작');
 
     try {
       console.log(
@@ -49,9 +52,18 @@ class TokenRefreshScheduler extends EventEmitter {
       }
 
       const newToken = await kiwoomService.ensureValidToken();
+
+      const duration = ((new Date() - startTime) / 1000).toFixed(2);
+      await notification.notifySchedulerComplete(
+        '토큰 재발급 스케줄러',
+        duration,
+      );
     } catch (error) {
       console.error('[TokenRefresh] 토큰 갱신 실패');
       console.error(`[TokenRefresh] 에러: ${error.message}`);
+
+      await notification.notifySchedulerError('토큰 재발급 스케줄러', error);
+
       if (error.response) {
         console.error(`[TokenRefresh] API 응답:`, error.response.data);
       }

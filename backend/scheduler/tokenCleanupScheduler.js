@@ -2,6 +2,7 @@ const cron = require('node-cron');
 const kiwoomService = require('../services/kiwoomService');
 const dayjs = require('dayjs');
 const EventEmitter = require('events');
+const notification = require('../utils/notification');
 
 class TokenCleanupScheduler extends EventEmitter {
   constructor() {
@@ -22,6 +23,8 @@ class TokenCleanupScheduler extends EventEmitter {
 
     const startTime = new Date();
 
+    await notification.notifySchedulerStart('토큰 정리 스케줄러 시작');
+
     try {
       console.log(
         `\n[TokenCleanup] 정리 시작: ${dayjs().format('YYYY-MM-DD HH:mm:ss')}`,
@@ -30,9 +33,17 @@ class TokenCleanupScheduler extends EventEmitter {
       const result = await kiwoomService.cleanupExpiredTokens(
         this.DAYS_AFTER_EXPIRY,
       );
+
+      const duration = ((new Date() - startTime) / 1000).toFixed(2);
+      await notification.notifySchedulerComplete(
+        '토큰 정리 스케줄러',
+        duration,
+      );
     } catch (error) {
       console.error('[TokenCleanup] 토큰 정리 실패');
       console.error(`[TokenCleanup] 에러: ${error.message}`);
+
+      await notification.notifySchedulerError('토큰 정리 스케줄러', error);
     } finally {
       const duration = ((new Date() - startTime) / 1000).toFixed(2);
       const endTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
