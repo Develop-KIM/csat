@@ -1,3 +1,10 @@
+## [1.12.1](https://github.com/Develop-KIM/csat/compare/v1.12.0...v1.12.1) (2025-10-04)
+
+
+### Bug Fixes
+
+* 기준일이 지났음에도 불구하고 삭제하지 않는 버그 수정 ([08dbe51](https://github.com/Develop-KIM/csat/commit/08dbe512888c68a575723d0e8e5d8e4f14e824ae))
+
 # [1.12.0](https://github.com/Develop-KIM/csat/compare/v1.11.0...v1.12.0) (2025-10-04)
 
 
