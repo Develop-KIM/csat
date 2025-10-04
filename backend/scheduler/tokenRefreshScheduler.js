@@ -1,6 +1,6 @@
 const cron = require('node-cron');
 const kiwoomTokenRepository = require('../repositories/kiwoomTokenRepository');
-const kiwoomService = require('../services/kiwoomService');
+const kiwoomService = require('../services/tokenService');
 const EventEmitter = require('events');
 const notification = require('../utils/notification');
 
