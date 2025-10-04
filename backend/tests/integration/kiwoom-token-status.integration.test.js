@@ -12,16 +12,6 @@ describe('키움 토큰 상태 조회 API', () => {
     await sequelize.close();
   });
 
-  test('GET /api/kiwoom/token/status - 연결 안 됨', async () => {
-    const response = await request(app)
-      .get('/api/kiwoom/token/status')
-      .expect(200);
-
-    expect(response.body.success).toBe(true);
-    expect(response.body.message).toBe('토큰 상태 조회 성공');
-    expect(response.body.data.is_connected).toBe(false);
-  });
-
   test('GET /api/kiwoom/token/status - 연결됨', async () => {
     await KiwoomToken.create({
       access_token: 'test_active_token',
@@ -38,5 +28,15 @@ describe('키움 토큰 상태 조회 API', () => {
 
     expect(response.body.success).toBe(true);
     expect(response.body.data.is_connected).toBe(true);
+  });
+
+  test('GET /api/kiwoom/token/status - 연결 안 됨', async () => {
+    const response = await request(app)
+      .get('/api/kiwoom/token/status')
+      .expect(200);
+
+    expect(response.body.success).toBe(true);
+    expect(response.body.message).toBe('토큰 상태 조회 성공');
+    expect(response.body.data.is_connected).toBe(false);
   });
 });
