@@ -7,8 +7,7 @@ class DiscordNotification {
 
   async send(message, color = 0x00ff00) {
     if (!this.webhookUrl) {
-      console.log('[Discord] 웹훅 URL이 설정되지 않음');
-      return;
+      throw new Error('Discord 웹훅 URL이 설정되지 않음');
     }
 
     try {
