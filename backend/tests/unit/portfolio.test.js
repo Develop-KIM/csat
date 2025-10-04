@@ -31,7 +31,7 @@ describe('portfolioService 유닛 테스트', () => {
   });
 
   describe('getDepositDetail', () => {
-    it('추정조회 성공 - 기본값 사용', async () => {
+    it('예수금조회 성공', async () => {
       kiwoomTokenRepository.findValidToken.mockResolvedValue(mockToken);
       axios.post.mockResolvedValue(mockDepositResponse);
 
