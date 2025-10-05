@@ -1,3 +1,10 @@
+## [1.13.1](https://github.com/Develop-KIM/csat/compare/v1.13.0...v1.13.1) (2025-10-05)
+
+
+### Performance Improvements
+
+* 포트폴리오 REST -> 실시간으로 개선 ([bb937eb](https://github.com/Develop-KIM/csat/commit/bb937eb3480c26d5461548458e646317238d5ca7))
+
 # [1.13.0](https://github.com/Develop-KIM/csat/compare/v1.12.1...v1.13.0) (2025-10-05)
 
 
