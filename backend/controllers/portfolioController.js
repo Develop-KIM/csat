@@ -18,6 +18,44 @@ const getDepositDetail = async (req, res) => {
   }
 };
 
+const getAccountBalance = async (req, res) => {
+  try {
+    const {
+      qryTp = '1',
+      dmstStexTp = 'KRX',
+      contYn = 'N',
+      nextKey = '',
+    } = req.query;
+
+    const result = await portfolioService.getAccountBalance(
+      qryTp,
+      dmstStexTp,
+      contYn,
+      nextKey,
+    );
+
+    res.json(successResponse(result, '계좌평가잔고내역 조회 성공'));
+  } catch (error) {
+    console.error('계좌평가잔고내역 조회 에러:', error.message);
+    res
+      .status(500)
+      .json(errorResponse('계좌평가잔고내역 조회 실패', error.message));
+  }
+};
+
+const getDashboard = async (req, res) => {
+  try {
+    const result = await portfolioService.getDashboardData();
+
+    res.json(successResponse(result, '대시보드 조회 성공'));
+  } catch (error) {
+    console.error('대시보드 조회 에러:', error.message);
+    res.status(500).json(errorResponse('대시보드 조회 실패', error.message));
+  }
+};
+
 module.exports = {
   getDepositDetail,
+  getAccountBalance,
+  getDashboard,
 };
