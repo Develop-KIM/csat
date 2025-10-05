@@ -1,3 +1,15 @@
+# [1.15.0](https://github.com/Develop-KIM/csat/compare/v1.14.0...v1.15.0) (2025-10-05)
+
+
+### Features
+
+* 푸터 구현 ([c2c514a](https://github.com/Develop-KIM/csat/commit/c2c514a3c843d86df9f885c68697856ed711da3c))
+
+
+### Performance Improvements
+
+* 푸터 화면 뷰 전환 개선 ([9745c32](https://github.com/Develop-KIM/csat/commit/9745c3245951c15b8079fc50aebf6b5fa583f2e4))
+
 # [1.14.0](https://github.com/Develop-KIM/csat/compare/v1.13.1...v1.14.0) (2025-10-05)
 
 
