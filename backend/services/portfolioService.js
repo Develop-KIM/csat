@@ -107,7 +107,6 @@ const getDashboardData = async () => {
         totalEvaluationAmount: accountBalance.totalEvaluationAmount,
         totalProfitLoss: accountBalance.totalProfitLoss,
         totalProfitRate: accountBalance.totalProfitRate,
-        totalAssetAmount: accountBalance.totalAssetAmount,
         stocks: accountBalance.stocks,
       },
       updatedAt: new Date().toISOString(),
