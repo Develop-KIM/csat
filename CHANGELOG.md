@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/Develop-KIM/csat/compare/v1.13.1...v1.14.0) (2025-10-05)
+
+
+### Features
+
+* 사이드바 구현 ([6e6d545](https://github.com/Develop-KIM/csat/commit/6e6d545a102f65d79f250e4e3a0a0ac8cf745876))
+
 ## [1.13.1](https://github.com/Develop-KIM/csat/compare/v1.13.0...v1.13.1) (2025-10-05)
 
 
