@@ -31,4 +31,13 @@ router.get('/balance', portfolioController.getAccountBalance);
  */
 router.get('/dashboard', portfolioController.getDashboard);
 
+/**
+ * @swagger
+ * /api/portfolio/dashboard/stream:
+ *   get:
+ *     summary: 대시보드 실시간 스트림 (SSE)
+ *     tags: [Portfolio]
+ */
+router.get('/dashboard/stream', portfolioController.streamDashboard);
+
 module.exports = router;
