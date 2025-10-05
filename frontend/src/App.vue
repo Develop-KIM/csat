@@ -1,6 +1,8 @@
 <template>
   <v-app>
-    <app-header />
+    <app-header @toggle-drawer="drawer = !drawer" />
+
+    <app-sidebar v-model="drawer" />
 
     <v-main>
       <v-container fluid>
@@ -12,13 +14,20 @@
 
 <script>
 import AppHeader from "@/components/AppHeader.vue";
+import AppSidebar from "@/components/AppSidebar.vue";
 
 export default {
   name: "App",
+
   components: {
     AppHeader,
+    AppSidebar,
+  },
+
+  data() {
+    return {
+      drawer: true,
+    };
   },
 };
 </script>
-
-<style></style>

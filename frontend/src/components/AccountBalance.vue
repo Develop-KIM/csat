@@ -1,4 +1,3 @@
-<!-- components/AccountBalance.vue -->
 <template>
   <v-card class="account-balance">
     <v-card-title class="d-flex justify-space-between align-center">
