@@ -37,13 +37,33 @@ const getDepositDetail = async (qryTp = '3', contYn = 'N', nextKey = '') => {
     },
     config,
   );
+  const data = response.data;
 
   return {
-    data: response.data,
-    headers: {
-      'next-key': response.headers['next-key'],
-      'cont-yn': response.headers['cont-yn'],
-      'api-id': response.headers['api-id'],
+    raw: {
+      returnCode: data.return_code,
+      returnMsg: data.return_msg,
+    },
+    deposit: {
+      balance: data.entr,
+      availableAmount: data.ord_alow_amt,
+      profit: data.profa_ch,
+      day1: {
+        deposit: data.d1_entra,
+        Amount: data.d1_slby_exct_amt,
+        buyAmount: data.d1_buy_exct_amt,
+        sellAmount: data.d1_sel_exct_amt,
+      },
+      day2: {
+        deposit: data.d2_entra,
+        Amount: data.d1_slby_exct_amt,
+        buyAmount: data.d2_buy_exct_amt,
+        sellAmount: data.d2_sel_exct_amt,
+      },
+    },
+    pagination: {
+      hasNext: response.headers['cont-yn'] === 'Y',
+      nextKey: response.headers['next-key'] || null,
     },
   };
 };
