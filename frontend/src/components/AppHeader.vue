@@ -1,14 +1,21 @@
 <template>
   <v-app-bar
     app
+    clipped-left
     color="primary"
     dark
     flat
-    style="min-width: 310px"
     :height="$vuetify.breakpoint.smAndDown ? 60 : 100"
   >
     <v-container fluid :class="$vuetify.breakpoint.smAndDown ? 'px-4' : 'px-8'">
       <v-row align="center">
+        <v-col cols="auto" v-if="$vuetify.breakpoint.smAndDown">
+          <v-app-bar-nav-icon
+            @click="$emit('toggle-drawer')"
+            class="mr-2"
+          ></v-app-bar-nav-icon>
+        </v-col>
+
         <v-col cols="auto">
           <v-toolbar-title
             :class="$vuetify.breakpoint.smAndDown ? 'text-body-1' : 'text-h6'"
@@ -45,6 +52,7 @@ import ThemeToggle from "@/components/ThemeToggle.vue";
 
 export default {
   name: "AppHeader",
+
   components: {
     KiwoomStatus,
     ThemeToggle,
