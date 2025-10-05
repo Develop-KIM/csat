@@ -44,6 +44,7 @@ import SchedulerStatus from "@/components/SchedulerStatus.vue";
 import AccountBalance from "@/components/AccountBalance.vue";
 import PortfolioSummary from "@/components/PortfolioSummary.vue";
 import StockList from "@/components/StockList.vue";
+import { PortfolioSSE } from "@/services/portfolioSSE";
 import { kiwoomStatus } from "@/api/kiwoom";
 
 export default {
@@ -73,37 +74,56 @@ export default {
         },
       },
       lastUpdated: "-",
-      loading: false,
-      interval: null,
+      loading: true,
+      error: null,
+      portfolioSSE: null,
     };
   },
 
-  mounted() {
-    this.fetchDashboard();
-    this.interval = setInterval(() => {
-      this.fetchDashboard();
-    }, 30000);
+  async mounted() {
+    const initial = await kiwoomStatus.getDashboard();
+    this.dashboardData = initial.data.data;
+    this.loading = false;
+
+    this.connectSSE();
   },
 
   beforeDestroy() {
-    if (this.interval) {
-      clearInterval(this.interval);
+    if (this.portfolioSSE) {
+      this.portfolioSSE.disconnect();
     }
   },
 
   methods: {
-    async fetchDashboard() {
-      this.loading = true;
-      try {
-        const response = await kiwoomStatus.getDashboard();
+    connectSSE() {
+      this.portfolioSSE = new PortfolioSSE();
 
-        this.dashboardData = response.data.data;
-        this.lastUpdated = new Date().toLocaleTimeString("ko-KR");
-      } catch (error) {
-        console.error("대시보드 조회 실패:", error);
-      } finally {
-        this.loading = false;
-      }
+      this.portfolioSSE.connect({
+        onInitialData: (data) => {
+          console.log("초기 데이터 수신");
+          this.dashboardData = data;
+          this.lastUpdated = new Date().toLocaleTimeString("ko-KR");
+          this.loading = false;
+        },
+
+        onDepositUpdate: (data) => {
+          console.log("예수금 업데이트");
+          this.dashboardData.deposit = data.deposit;
+          this.lastUpdated = new Date().toLocaleTimeString("ko-KR");
+        },
+
+        onStockUpdate: (data) => {
+          console.log("종목 실시간 업데이트:", data.stocks.length, "개");
+          this.dashboardData.portfolio.stocks = data.stocks;
+          this.lastUpdated = new Date().toLocaleTimeString("ko-KR");
+        },
+
+        onError: (errorMsg) => {
+          console.error("포트폴리오 스트림 에러:", errorMsg);
+          this.error = errorMsg;
+          this.loading = false;
+        },
+      });
     },
   },
 };

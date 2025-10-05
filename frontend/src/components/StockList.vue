@@ -90,8 +90,7 @@ export default {
 
     formatProfitRate(value) {
       const num = parseFloat(value);
-      const sign = num > 0 ? "+" : "";
-      return `${sign}${num.toFixed(2)}%`;
+      return `${num.toFixed(2)}%`;
     },
 
     getProfitClass(value) {
