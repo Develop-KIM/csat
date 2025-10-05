@@ -1,10 +1,9 @@
-<!-- App.vue -->
 <template>
   <v-app>
     <app-header @toggle-drawer="drawer = !drawer" />
     <app-sidebar v-model="drawer" />
-    <v-main class="d-flex flex-column">
-      <v-container fluid class="flex-grow-1">
+    <v-main>
+      <v-container fluid>
         <router-view />
       </v-container>
     </v-main>
@@ -33,15 +32,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.v-main {
-  min-height: 100vh;
-}
-
-@media (max-width: 960px) {
-  .v-main {
-    min-height: calc(100vh - 60px) !important;
-  }
-}
-</style>
