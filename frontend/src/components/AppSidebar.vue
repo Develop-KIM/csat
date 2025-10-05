@@ -6,8 +6,33 @@
     clipped
     :temporary="$vuetify.breakpoint.smAndDown"
     :permanent="$vuetify.breakpoint.mdAndUp"
-    width="240"
+    :right="$vuetify.breakpoint.smAndDown"
+    width="280"
   >
+    <div
+      v-if="$vuetify.breakpoint.smAndDown"
+      class="pa-4 d-flex align-center justify-space-between"
+    >
+      <span class="text-h6 font-weight-bold">메뉴</span>
+      <v-btn icon @click="$emit('input', false)">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </div>
+
+    <v-divider v-if="$vuetify.breakpoint.smAndDown"></v-divider>
+
+    <div v-if="$vuetify.breakpoint.smAndDown" class="pa-4">
+      <div class="d-flex align-center justify-space-between mb-3">
+        <span class="text-caption grey--text">시스템 상태</span>
+      </div>
+      <div class="d-flex align-center justify-space-between">
+        <kiwoom-status />
+        <theme-toggle />
+      </div>
+    </div>
+
+    <v-divider v-if="$vuetify.breakpoint.smAndDown"></v-divider>
+
     <template v-for="(group, index) in menuConfig">
       <v-divider
         v-if="index > 0"
@@ -34,6 +59,7 @@
           :to="item.to"
           link
           :class="group.section === null ? 'mb-1' : ''"
+          @click="$vuetify.breakpoint.smAndDown && $emit('input', false)"
         >
           <v-list-item-icon class="mr-3">
             <v-icon :color="item.color" :size="group.section ? 20 : 24">
@@ -54,9 +80,16 @@
 
 <script>
 import { menuConfig } from "@/routes/menuConfig";
+import KiwoomStatus from "@/components/KiwoomStatus.vue";
+import ThemeToggle from "@/components/ThemeToggle.vue";
 
 export default {
   name: "AppSidebar",
+
+  components: {
+    KiwoomStatus,
+    ThemeToggle,
+  },
 
   props: {
     value: {

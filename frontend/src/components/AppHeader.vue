@@ -9,13 +9,6 @@
   >
     <v-container fluid :class="$vuetify.breakpoint.smAndDown ? 'px-4' : 'px-8'">
       <v-row align="center">
-        <v-col cols="auto" v-if="$vuetify.breakpoint.smAndDown">
-          <v-app-bar-nav-icon
-            @click="$emit('toggle-drawer')"
-            class="mr-2"
-          ></v-app-bar-nav-icon>
-        </v-col>
-
         <v-col cols="auto">
           <v-toolbar-title
             :class="$vuetify.breakpoint.smAndDown ? 'text-body-1' : 'text-h6'"
@@ -27,19 +20,19 @@
 
         <v-spacer></v-spacer>
 
-        <v-col cols="auto">
-          <div
-            :class="$vuetify.breakpoint.smAndDown ? 'px-2 py-1' : 'px-6 py-3'"
-            class="d-flex align-center"
-          >
+        <v-col cols="auto" v-if="$vuetify.breakpoint.mdAndUp">
+          <div class="px-6 py-3 d-flex align-center">
             <kiwoom-status />
-            <v-divider
-              vertical
-              :class="$vuetify.breakpoint.smAndDown ? 'mx-2' : 'mx-4'"
-              class="divider-custom"
-            ></v-divider>
+            <v-divider vertical class="mx-4 divider-custom"></v-divider>
             <theme-toggle />
           </div>
+        </v-col>
+
+        <!-- 모바일: 햄버거 버튼만 표시 (오른쪽) -->
+        <v-col cols="auto" v-if="$vuetify.breakpoint.smAndDown">
+          <v-app-bar-nav-icon
+            @click="$emit('toggle-drawer')"
+          ></v-app-bar-nav-icon>
         </v-col>
       </v-row>
     </v-container>
