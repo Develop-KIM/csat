@@ -12,4 +12,8 @@ export const kiwoomStatus = {
   getCleanupStatus() {
     return api.get("/kiwoom/tokens/cleanup/status");
   },
+
+  getDepositDetail() {
+    return api.get("/portfolio/deposit");
+  },
 };
