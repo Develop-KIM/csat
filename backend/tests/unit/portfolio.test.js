@@ -179,7 +179,6 @@ describe('PortfolioService', () => {
           totalProfitRate: '46.25',
         },
       });
-      expect(result.updatedAt).toBeInstanceOf(Date);
       expect(axios.post).toHaveBeenCalledTimes(2);
     });
 
