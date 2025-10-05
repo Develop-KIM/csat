@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/Develop-KIM/csat/compare/v1.12.1...v1.13.0) (2025-10-05)
+
+
+### Features
+
+* 계좌 정보 UI 구현 ([5d074e2](https://github.com/Develop-KIM/csat/commit/5d074e21cd54009b91c75617f59095276dc36f75))
+
 ## [1.12.1](https://github.com/Develop-KIM/csat/compare/v1.12.0...v1.12.1) (2025-10-04)
 
 
