@@ -1,3 +1,4 @@
+<!-- components/AccountBalance.vue -->
 <template>
   <v-card class="account-balance">
     <v-card-title class="d-flex justify-space-between align-center">
@@ -50,20 +51,26 @@
 </template>
 
 <script>
-import { kiwoomStatus } from "@/api/kiwoom";
-
 export default {
   name: "AccountBalance",
 
-  data() {
-    return {
-      balance: "0",
-      orderAvailable: "0",
-      profit: "0",
-      lastUpdated: "-",
-      loading: false,
-      interval: null,
-    };
+  props: {
+    balance: {
+      type: String,
+      default: "0",
+    },
+    orderAvailable: {
+      type: String,
+      default: "0",
+    },
+    profit: {
+      type: String,
+      default: "0",
+    },
+    lastUpdated: {
+      type: String,
+      default: "-",
+    },
   },
 
   computed: {
@@ -89,36 +96,7 @@ export default {
     },
   },
 
-  mounted() {
-    this.fetchBalance();
-    this.interval = setInterval(() => {
-      this.fetchBalance();
-    }, 30000);
-  },
-
-  beforeDestroy() {
-    if (this.interval) {
-      clearInterval(this.interval);
-    }
-  },
-
   methods: {
-    async fetchBalance() {
-      this.loading = true;
-      try {
-        const response = await kiwoomStatus.getDepositDetail();
-
-        this.balance = response.data.data.balance;
-        this.orderAvailable = response.data.data.orderAvailable;
-        this.profit = response.data.data.profit;
-        this.lastUpdated = new Date().toLocaleTimeString("ko-KR");
-      } catch (error) {
-        console.error("계좌 정보 조회 실패:", error);
-      } finally {
-        this.loading = false;
-      }
-    },
-
     formatNumber(value) {
       return parseInt(value).toLocaleString();
     },
