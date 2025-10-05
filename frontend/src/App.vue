@@ -3,13 +3,11 @@
   <v-app>
     <app-header @toggle-drawer="drawer = !drawer" />
     <app-sidebar v-model="drawer" />
-
-    <v-main>
-      <v-container fluid class="pa-6">
+    <v-main class="d-flex flex-column">
+      <v-container fluid class="flex-grow-1">
         <router-view />
       </v-container>
     </v-main>
-
     <app-footer />
   </v-app>
 </template>
@@ -35,3 +33,15 @@ export default {
   },
 };
 </script>
+
+<style>
+.v-main {
+  min-height: 100vh;
+}
+
+@media (max-width: 960px) {
+  .v-main {
+    min-height: calc(100vh - 60px) !important;
+  }
+}
+</style>
