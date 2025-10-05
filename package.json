@@ -1,6 +1,6 @@
 {
   "name": "csat",
-  "version": "1.0.0",
+  "version": "1.31.1",
   "private": true,
   "workspaces": [
     "backend",
@@ -36,6 +36,7 @@
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
       "@semantic-release/changelog",
+      "@semantic-release/npm",
       "@semantic-release/github",
       [
         "@semantic-release/git",

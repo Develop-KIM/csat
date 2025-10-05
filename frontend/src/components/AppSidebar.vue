@@ -103,6 +103,14 @@ export default {
       menuConfig,
     };
   },
+
+  watch: {
+    "$vuetify.breakpoint.smAndDown"(val) {
+      if (val) {
+        this.$emit("input", false);
+      }
+    },
+  },
 };
 </script>
 
