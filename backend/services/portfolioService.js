@@ -38,13 +38,12 @@ const getDepositDetail = async (qryTp = '3', contYn = 'N', nextKey = '') => {
     config,
   );
 
+  const data = response.data;
+
   return {
-    data: response.data,
-    headers: {
-      'next-key': response.headers['next-key'],
-      'cont-yn': response.headers['cont-yn'],
-      'api-id': response.headers['api-id'],
-    },
+    balance: data.entr,
+    orderAvailable: data.ord_alow_amt,
+    profit: data.profa_ch,
   };
 };
 

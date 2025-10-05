@@ -3,7 +3,7 @@
     <v-card-title class="d-flex justify-space-between align-center">
       <span
         :class="$vuetify.breakpoint.smAndDown ? 'text-subtitle-1' : 'text-h6'"
-        >스케줄러 상태</span
+        >토큰 스케줄러 상태</span
       >
       <span class="text-caption grey--text">
         마지막 업데이트: {{ lastUpdated }}
@@ -14,7 +14,7 @@
         <v-col cols="12" md="6">
           <div class="scheduler-card">
             <div class="d-flex align-center justify-space-between mb-3">
-              <h3 class="scheduler-title">토큰 재발급 스케줄러</h3>
+              <h3 class="scheduler-title">재발급 스케줄러</h3>
               <v-chip
                 :color="refreshStatus.isRunning ? 'success' : 'error'"
                 label
@@ -79,7 +79,7 @@
         <v-col cols="12" md="6">
           <div class="scheduler-card">
             <div class="d-flex align-center justify-space-between mb-3">
-              <h3 class="scheduler-title">토큰 정리 스케줄러</h3>
+              <h3 class="scheduler-title">정리 스케줄러</h3>
               <v-chip
                 :color="cleanupStatus.isRunning ? 'success' : 'error'"
                 label
@@ -288,10 +288,6 @@ export default {
 }
 
 @media (max-width: 960px) {
-  .scheduler-status {
-    margin: 8px;
-  }
-
   .scheduler-card {
     padding: 8px;
   }

@@ -31,7 +31,7 @@ describe('portfolioService 유닛 테스트', () => {
   });
 
   describe('getDepositDetail', () => {
-    it('예수금조회 성공', async () => {
+    it('예수금조회 성공 - 필요한 필드만 반환', async () => {
       kiwoomTokenRepository.findValidToken.mockResolvedValue(mockToken);
       axios.post.mockResolvedValue(mockDepositResponse);
 
@@ -50,26 +50,12 @@ describe('portfolioService 유닛 테스트', () => {
           }),
         }),
       );
-      expect(result.data.entr).toBe('000000000017534');
-      expect(result.headers['cont-yn']).toBe('N');
-    });
 
-    it('연속조회 파라미터 전달', async () => {
-      kiwoomTokenRepository.findValidToken.mockResolvedValue(mockToken);
-      axios.post.mockResolvedValue(mockDepositResponse);
-
-      await portfolioService.getDepositDetail('3', 'Y', 'next_key_123');
-
-      expect(axios.post).toHaveBeenCalledWith(
-        expect.any(String),
-        expect.any(Object),
-        expect.objectContaining({
-          headers: expect.objectContaining({
-            'cont-yn': 'Y',
-            'next-key': 'next_key_123',
-          }),
-        }),
-      );
+      expect(result).toEqual({
+        balance: '000000000017534',
+        orderAvailable: '000000000085341',
+        profit: '000000000032193',
+      });
     });
 
     it('유효한 토큰이 없을 때 에러 발생', async () => {
@@ -90,17 +76,15 @@ describe('portfolioService 유닛 테스트', () => {
       );
     });
 
-    it('응답 헤더 정상 반환', async () => {
+    it('모든 필드가 올바른 값으로 매핑됨', async () => {
       kiwoomTokenRepository.findValidToken.mockResolvedValue(mockToken);
       axios.post.mockResolvedValue(mockDepositResponse);
 
       const result = await portfolioService.getDepositDetail();
 
-      expect(result.headers).toEqual({
-        'next-key': '',
-        'cont-yn': 'N',
-        'api-id': 'kt00001',
-      });
+      expect(result.balance).toBe(mockDepositResponse.data.entr);
+      expect(result.orderAvailable).toBe(mockDepositResponse.data.ord_alow_amt);
+      expect(result.profit).toBe(mockDepositResponse.data.profa_ch);
     });
   });
 });
