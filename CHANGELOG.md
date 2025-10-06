@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/Develop-KIM/csat/compare/v1.15.0...v1.16.0) (2025-10-06)
+
+
+### Features
+
+* 조건검색 목록 조회 구현 ([94dc716](https://github.com/Develop-KIM/csat/commit/94dc7161d74d8b82c10b890a77a5ff55ef9fafb8))
+
 # [1.15.0](https://github.com/Develop-KIM/csat/compare/v1.14.0...v1.15.0) (2025-10-05)
 
 
