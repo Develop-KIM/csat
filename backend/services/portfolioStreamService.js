@@ -1,15 +1,16 @@
 const portfolioService = require('./portfolioService');
 const wsManager = require('./webSocket');
 const { REALTIME_TYPES } = require('../config/websocket');
+const { sendSSEMessage } = require('../config/sse');
 
 class PortfolioStreamService {
   async sendInitialData(res) {
     try {
       const data = await portfolioService.getDashboardData();
-      this.sendSSEMessage(res, data);
+      sendSSEMessage(res, data);
     } catch (error) {
       console.error('초기 데이터 로드 실패:', error);
-      this.sendSSEMessage(res, { error: '초기 데이터 로드 실패' });
+      sendSSEMessage(res, { error: '초기 데이터 로드 실패' });
     }
   }
 
@@ -37,7 +38,7 @@ class PortfolioStreamService {
     console.log('체결 발생 - 예수금 갱신');
     try {
       const deposit = await portfolioService.getDepositDetail('3');
-      this.sendSSEMessage(res, {
+      sendSSEMessage(res, {
         type: 'deposit_update',
         deposit,
         updatedAt: new Date().toISOString(),
@@ -62,15 +63,11 @@ class PortfolioStreamService {
       possessionRate: item.values['950'],
     }));
 
-    this.sendSSEMessage(res, {
+    sendSSEMessage(res, {
       type: 'stock_update',
       stocks,
       updatedAt: new Date().toISOString(),
     });
-  }
-
-  sendSSEMessage(res, data) {
-    res.write(`data: ${JSON.stringify(data)}\n\n`);
   }
 
   subscribe(handler) {
@@ -79,6 +76,28 @@ class PortfolioStreamService {
 
   unsubscribe(handler) {
     wsManager.removeSubscriber(handler);
+  }
+
+  // SSE 스트림 설정 (연결 관리 로직 포함)
+  async setupStream(req, res, heartbeatInterval) {
+    const realtimeHandler = this.createRealtimeHandler(res);
+    this.subscribe(realtimeHandler);
+
+    // 정리 함수
+    const cleanup = () => {
+      clearInterval(heartbeatInterval);
+      this.unsubscribe(realtimeHandler);
+      console.log('대시보드 스트림 연결 종료');
+    };
+
+    // 이벤트 리스너 등록
+    req.on('close', cleanup);
+    res.on('error', (error) => {
+      console.error('SSE 응답 에러:', error);
+      cleanup();
+    });
+
+    return { realtimeHandler, cleanup };
   }
 }
 

@@ -38,8 +38,6 @@ const getCleanupStatus = (req, res) => {
 };
 
 const streamSchedulerStatus = (req, res) => {
-  console.log('[SSE] 클라이언트 연결 요청');
-
   setSSEHeaders(res);
 
   const initialData = schedulerSSEService.getInitialData();

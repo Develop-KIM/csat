@@ -45,7 +45,6 @@ import AccountBalance from "@/components/AccountBalance.vue";
 import PortfolioSummary from "@/components/PortfolioSummary.vue";
 import StockList from "@/components/StockList.vue";
 import { PortfolioSSE } from "@/services/portfolioSSE";
-import { kiwoomStatus } from "@/api/kiwoom";
 
 export default {
   name: "Dashboard",
@@ -81,10 +80,6 @@ export default {
   },
 
   async mounted() {
-    const initial = await kiwoomStatus.getDashboard();
-    this.dashboardData = initial.data.data;
-    this.loading = false;
-
     this.connectSSE();
   },
 
