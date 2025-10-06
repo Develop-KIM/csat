@@ -15,7 +15,6 @@ const WEBSOCKET_MESSAGES = {
 const REALTIME_TYPES = {
   EXECUTION: '02',
   BALANCE: '04',
-  QUOTE: '01',
 };
 
 const WEBSOCKET_OPTIONS = {
@@ -28,16 +27,25 @@ const createLoginPacket = (token) => ({
   token,
 });
 
-const createSubscribePacket = (groupNo = '1', types = ['04', '02']) => ({
+const createSubscribePacket = (
+  groupNo = '1',
+  types = ['04', '02'],
+  refresh = '1',
+) => ({
   trnm: WEBSOCKET_MESSAGES.REG,
   grp_no: groupNo,
-  refresh: '1',
+  refresh,
   data: [
     {
       item: [''],
       type: types,
     },
   ],
+});
+
+const createUnsubscribePacket = (groupNo = '1') => ({
+  trnm: WEBSOCKET_MESSAGES.REMOVE,
+  grp_no: groupNo,
 });
 
 module.exports = {
@@ -47,4 +55,5 @@ module.exports = {
   WEBSOCKET_OPTIONS,
   createLoginPacket,
   createSubscribePacket,
+  createUnsubscribePacket,
 };

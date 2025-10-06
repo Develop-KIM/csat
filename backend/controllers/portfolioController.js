@@ -1,6 +1,7 @@
 const { successResponse, errorResponse } = require('../utils/response');
 const portfolioService = require('../services/portfolioService');
 const portfolioStreamService = require('../services/portfolioStreamService');
+const { setSSEHeaders, setupHeartbeat } = require('../config/sse');
 
 const getDepositDetail = async (req, res) => {
   try {
@@ -51,19 +52,13 @@ const getDashboard = async (req, res) => {
 };
 
 const streamDashboard = async (req, res) => {
-  res.setHeader('Content-Type', 'text/event-stream');
-  res.setHeader('Cache-Control', 'no-cache');
-  res.setHeader('Connection', 'keep-alive');
+  setSSEHeaders(res);
 
   await portfolioStreamService.sendInitialData(res);
 
-  const realtimeHandler = portfolioStreamService.createRealtimeHandler(res);
-  portfolioStreamService.subscribe(realtimeHandler);
+  const heartbeatInterval = setupHeartbeat(res);
 
-  req.on('close', () => {
-    portfolioStreamService.unsubscribe(realtimeHandler);
-    console.log('대시보드 스트림 연결 종료');
-  });
+  await portfolioStreamService.setupStream(req, res, heartbeatInterval);
 };
 
 module.exports = {
