@@ -10,6 +10,7 @@ const WEBSOCKET_MESSAGES = {
   REAL: 'REAL',
   REG: 'REG',
   REMOVE: 'REMOVE',
+  CNSRLST: 'CNSRLST',
 };
 
 const REALTIME_TYPES = {
@@ -48,6 +49,10 @@ const createUnsubscribePacket = (groupNo = '1') => ({
   grp_no: groupNo,
 });
 
+const createConditionListPacket = () => ({
+  trnm: WEBSOCKET_MESSAGES.CNSRLST,
+});
+
 module.exports = {
   WEBSOCKET_CONFIG,
   WEBSOCKET_MESSAGES,
@@ -56,4 +61,5 @@ module.exports = {
   createLoginPacket,
   createSubscribePacket,
   createUnsubscribePacket,
+  createConditionListPacket,
 };

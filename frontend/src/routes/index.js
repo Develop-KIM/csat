@@ -15,5 +15,10 @@ export const router = new VueRouter({
       name: "Dashboard",
       component: () => import("@/pages/Dashboard.vue"),
     },
+    {
+      path: "/condition-search",
+      name: "ConditionSearch",
+      component: () => import("@/pages/ConditionSearch.vue"),
+    },
   ],
 });

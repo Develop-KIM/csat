@@ -80,14 +80,14 @@
 
 <script>
 import { menuConfig } from "@/routes/menuConfig";
-import KiwoomStatus from "@/components/KiwoomStatus.vue";
+import TokenStatus from "@/components/TokenStatus.vue";
 import ThemeToggle from "@/components/ThemeToggle.vue";
 
 export default {
   name: "AppSidebar",
 
   components: {
-    KiwoomStatus,
+    KiwoomStatus: TokenStatus,
     ThemeToggle,
   },
 

@@ -17,6 +17,7 @@ class KiwoomWebSocketManager {
     this.subscribers = new Set();
     this.reconnectInterval = null;
     this.reconnectAttempts = 0;
+    this.pendingRequests = new Map();
 
     this.messageHandlers = {
       [WEBSOCKET_MESSAGES.LOGIN]: (response) => this.handleLogin(response),
@@ -25,6 +26,8 @@ class KiwoomWebSocketManager {
       [WEBSOCKET_MESSAGES.REAL]: (response) => this.broadcast(response),
       [WEBSOCKET_MESSAGES.REMOVE]: (response) =>
         console.log('구독 해제 응답:', response),
+      [WEBSOCKET_MESSAGES.CNSRLST]: (response) =>
+        this.handleConditionList(response),
       default: (response) =>
         console.log('알 수 없는 메시지 타입:', response.trnm, response),
     };
@@ -115,6 +118,48 @@ class KiwoomWebSocketManager {
 
     const handler = handlers[response.return_code] || handlers.default;
     handler();
+  }
+
+  handleConditionList(response) {
+    const handlers = {
+      0: () => {
+        console.log('조건검색 목록 조회 성공');
+        const resolver = this.pendingRequests.get(WEBSOCKET_MESSAGES.CNSRLST);
+        resolver?.resolve(response.data);
+        this.pendingRequests.delete(WEBSOCKET_MESSAGES.CNSRLST);
+      },
+      default: () => {
+        console.error('조건검색 목록 조회 실패:', response.return_msg);
+        const resolver = this.pendingRequests.get(WEBSOCKET_MESSAGES.CNSRLST);
+        resolver?.reject(new Error(response.return_msg));
+        this.pendingRequests.delete(WEBSOCKET_MESSAGES.CNSRLST);
+      },
+    };
+
+    const handler = handlers[response.return_code] || handlers.default;
+    handler();
+  }
+
+  requestConditionList() {
+    return new Promise((resolve, reject) => {
+      const isReady = this.ws && this.connected && this.authenticated;
+      if (!isReady) {
+        reject(new Error('WebSocket이 준비되지 않았습니다'));
+        return;
+      }
+      this.pendingRequests.set(WEBSOCKET_MESSAGES.CNSRLST, {
+        resolve,
+        reject,
+      });
+      this.send({ trnm: WEBSOCKET_MESSAGES.CNSRLST });
+      setTimeout(() => {
+        const pending = this.pendingRequests.get(WEBSOCKET_MESSAGES.CNSRLST);
+        if (pending) {
+          this.pendingRequests.delete(WEBSOCKET_MESSAGES.CNSRLST);
+          reject(new Error('조건검색 목록 조회 타임아웃'));
+        }
+      }, 10000);
+    });
   }
 
   subscribeRealtimeData() {

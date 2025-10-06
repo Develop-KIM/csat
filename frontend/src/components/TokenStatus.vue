@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import { kiwoomStatus } from "@/api/kiwoom";
+import { tokenStatus } from "@/api/token";
 
 export default {
-  name: "KiwoomStatus",
+  name: "TokenStatus",
 
   data() {
     return {
@@ -44,7 +44,7 @@ export default {
   methods: {
     async checkStatus() {
       try {
-        const response = await kiwoomStatus.getTokenStatus();
+        const response = await tokenStatus.getTokenStatus();
         this.isConnected = response.data.data.is_connected;
       } catch (error) {
         console.error("키움 상태 조회 실패:", error);
