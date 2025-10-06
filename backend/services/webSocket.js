@@ -143,27 +143,22 @@ class KiwoomWebSocketManager {
   requestConditionList() {
     return new Promise((resolve, reject) => {
       const isReady = this.ws && this.connected && this.authenticated;
-      isReady || reject(new Error('WebSocket이 준비되지 않았습니다'));
-
-      isReady &&
-        (() => {
-          this.pendingRequests.set(WEBSOCKET_MESSAGES.CNSRLST, {
-            resolve,
-            reject,
-          });
-          this.send({ trnm: WEBSOCKET_MESSAGES.CNSRLST });
-
-          setTimeout(() => {
-            const pending = this.pendingRequests.get(
-              WEBSOCKET_MESSAGES.CNSRLST,
-            );
-            pending &&
-              (() => {
-                this.pendingRequests.delete(WEBSOCKET_MESSAGES.CNSRLST);
-                reject(new Error('조건검색 목록 조회 타임아웃'));
-              })();
-          }, 10000);
-        })();
+      if (!isReady) {
+        reject(new Error('WebSocket이 준비되지 않았습니다'));
+        return;
+      }
+      this.pendingRequests.set(WEBSOCKET_MESSAGES.CNSRLST, {
+        resolve,
+        reject,
+      });
+      this.send({ trnm: WEBSOCKET_MESSAGES.CNSRLST });
+      setTimeout(() => {
+        const pending = this.pendingRequests.get(WEBSOCKET_MESSAGES.CNSRLST);
+        if (pending) {
+          this.pendingRequests.delete(WEBSOCKET_MESSAGES.CNSRLST);
+          reject(new Error('조건검색 목록 조회 타임아웃'));
+        }
+      }, 10000);
     });
   }
 
