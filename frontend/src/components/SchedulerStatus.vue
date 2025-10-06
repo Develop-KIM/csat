@@ -146,7 +146,7 @@
 </template>
 
 <script>
-import { kiwoomStatus } from "@/api/kiwoom";
+import { tokenStatus } from "@/api/token";
 import { SchedulerSSE } from "@/services/schedulerSSE";
 
 export default {
@@ -201,8 +201,8 @@ export default {
       this.loading = true;
       try {
         const [refreshRes, cleanupRes] = await Promise.all([
-          kiwoomStatus.getTokenRefreshStatus(),
-          kiwoomStatus.getCleanupStatus(),
+          tokenStatus.getTokenRefreshStatus(),
+          tokenStatus.getCleanupStatus(),
         ]);
 
         this.refreshStatus = refreshRes.data.data;

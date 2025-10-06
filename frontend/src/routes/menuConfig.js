@@ -18,7 +18,7 @@ export const menuConfig = [
         title: "조건 검색",
         icon: "mdi-strategy",
         color: "primary",
-        to: "/strategies",
+        to: "/condition-search",
       },
     ],
   },

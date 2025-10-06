@@ -22,13 +22,12 @@
 
         <v-col cols="auto" v-if="$vuetify.breakpoint.mdAndUp">
           <div class="px-6 py-3 d-flex align-center">
-            <kiwoom-status />
+            <token-status />
             <v-divider vertical class="mx-4 divider-custom"></v-divider>
             <theme-toggle />
           </div>
         </v-col>
 
-        <!-- 모바일: 햄버거 버튼만 표시 (오른쪽) -->
         <v-col cols="auto" v-if="$vuetify.breakpoint.smAndDown">
           <v-app-bar-nav-icon
             @click="$emit('toggle-drawer')"
@@ -40,14 +39,14 @@
 </template>
 
 <script>
-import KiwoomStatus from "@/components/KiwoomStatus.vue";
+import TokenStatus from "@/components/TokenStatus.vue";
 import ThemeToggle from "@/components/ThemeToggle.vue";
 
 export default {
   name: "AppHeader",
 
   components: {
-    KiwoomStatus,
+    TokenStatus,
     ThemeToggle,
   },
 };

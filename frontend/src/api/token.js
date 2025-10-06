@@ -1,6 +1,6 @@
 import api from "./index";
 
-export const kiwoomStatus = {
+export const tokenStatus = {
   getTokenStatus() {
     return api.get("/kiwoom/token/status");
   },
@@ -11,17 +11,5 @@ export const kiwoomStatus = {
 
   getCleanupStatus() {
     return api.get("/kiwoom/tokens/cleanup/status");
-  },
-
-  getDepositDetail() {
-    return api.get("/portfolio/deposit");
-  },
-
-  getAccountBalance() {
-    return api.get("/portfolio/balance");
-  },
-
-  getDashboard() {
-    return api.get("/portfolio/dashboard");
   },
 };
